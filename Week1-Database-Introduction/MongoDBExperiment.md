@@ -1,4 +1,4 @@
-# MongoDB 学习 -- Linux 平台安装MongoDB
+# MongoDB 学习 -- Linux 平台安装 MongoDB
 
 ## 步骤一：下载安装 MongoDB 版本
 
