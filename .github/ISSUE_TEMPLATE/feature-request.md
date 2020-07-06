@@ -1,6 +1,10 @@
 ---
-name: "Feature Request"
+name: Feature Request
+about: I got a good suggestions for this repo
+title: ''
 labels: enhancement
+assignees: ''
+
 ---
 
 ## Feature Request

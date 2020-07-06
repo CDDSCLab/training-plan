@@ -1,6 +1,10 @@
 ---
-name: "Bug Report"
+name: Bug Report
+about: There is a bug, no matter how big it is
+title: ''
 labels: bug
+assignees: ''
+
 ---
 
 ## Bug Report
