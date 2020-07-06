@@ -1,4 +1,4 @@
-# 2020 级新生培养
+## 2020 级新生培养计划
 
 培养方向：分布式数据库研发
 
@@ -16,7 +16,7 @@
 2. 软件工程能力（代码规范、协作开发、UML的使用、代码测试、文档撰写）
 3. Research、Presentation 能力
 
-说明：整个学习流程的作业和文档需要在实验室Github仓库里面提交，每个Project会事先建立好框架，每个同学按照框架进行代码和文档的撰写。并且在代码过程中抽象公共代码库方便后续同学的使用，且需做好todo-list，方便功能的完善。
+时间安排表：
 
 | 时间                                      | 知识点                   | 说明                                                         | Project                                                      |
 | ----------------------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -30,3 +30,59 @@
 | week12、13                                | 分布式基础               | 分布式相关概念、时钟、CAP、BASE、分布式事务（2PC/3PC、TCC、Percolator、LCN、Seata)、RPC、MapRudece | 阅读 MapReduce 论文，并结合相关框架实现一个单词统计程序。参考MIT6.824课程、Spark |
 | week14                                    | 一致性协议               | 学习Paxos，Raft，Zab，Gossip, Quorum等协议                   | 实现 Raft 算法，参考MIT6.824课程                             |
 | week15                                    | 分布式数据库             | 阅读 BigTable、DynamoDB、TiDB、等论文，了解它们的设计        |                                                              |
+
+
+
+说明：整个学习流程的作业和文档需要在实验室Github仓库里面提交，每个Project会事先建立好框架，每个同学按照框架进行代码和文档的撰写。并且在代码过程中抽象公共代码库方便后续同学的使用，且需做好todo-list，方便功能的完善。
+
+
+
+## 如何提交作业
+
+1. 第一次提交作业的时候请先`fork`当前项目到自己的仓库
+
+2. 在自己的仓库里面进行作业的更新
+
+   以第一次作业为例，比如你`fork`之后你的代码地址为`git@github.com:ehds/training-plan.git`
+
+   1. 克隆仓库到本地：
+
+      `git clone git@github.com:ehds/training-plan.git`
+
+   2. 进入当前实验文件夹`Week1-Databse-Introduction`
+
+      `cd Week1-Databse-Introduction`
+
+   3. 新建一个自己的文件夹，名字+实验名称，参考Example
+
+      `cp -r Example DongShengHe-Week1`
+
+      完善实验文档Markdown文件
+
+   4. add 作业内容
+
+      `git add .`
+
+   5. commit修改
+
+      `git commit -m"message"` （message使用英文填写你所做的修改）如`git commit -m“complete week1 experiment`
+
+   6. push分支
+
+      `git push origin master`
+
+3. 提交PR
+
+   在Gihub仓库界面新建一个pull request到实验室仓库
+
+4. 审核与修改
+
+   待审核人审核后，根据修改意见进行修改，待通过后即可
+
+## 如何提问
+
+大家遇到问题首先合理利用搜索引擎，网络上可能已经存在比较完美的解决方案
+
+在向同学和老师提问的时候，请先描述问题出现的背景和出现问题的状况，这样更加有利于问题的解决。
+
+请参考[提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md)
