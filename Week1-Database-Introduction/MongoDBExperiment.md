@@ -81,7 +81,7 @@ WriteResult({ "nInserted" : 1 })
 
 # 参考学习资料
 
-1.[强烈推荐: MongoDB 官方入门课程 M001](https://university.mongodb.com/courses/M001/about) 
+1.[强烈推荐: MongoDB 官方入门课程 M001](https://university.mongodb.com/courses/M001/about)
 
 2.[macOS | Windows | Linux 安装教程](https://docs.mongodb.com/manual/administration/install-community/)
 
