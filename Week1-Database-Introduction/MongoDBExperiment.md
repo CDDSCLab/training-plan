@@ -2,7 +2,7 @@
 
 ## 步骤一：下载安装 MongoDB 版本
 
-MongoDB 提供了 linux 各发行版本 64 位的安装包，你可以在官网下载安装包。
+MongoDB 提供了 Linux 各发行版本 64 位的安装包，你可以在官网下载安装包。
 
 [Ubuntu 下安装 MongoDB 教程](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
 
@@ -37,7 +37,7 @@ $ ./mongod
 
 如果你需要进入MongoDB后台管理，你需要先打开mongodb装目录的下的bin目录，然后执行mongo命令文件。
 
-MongoDB Shell是MongoDB自带的交互式Javascript shell,用来对MongoDB进行操作和管理的交互式环境。
+MongoDB Shell是MongoDB自带的交互式JavaScript shell,用来对MongoDB进行操作和管理的交互式环境。
 
 当你进入mongoDB后台后，它默认会链接到 test 文档（数据库）：
 
@@ -77,4 +77,4 @@ WriteResult({ "nInserted" : 1 })
 
 1.[强烈推荐: MongoDB 官方入门课程 M001](https://university.mongodb.com/courses/M001/about)
 
-2.[macOs | windows | Linux安装教程](https://docs.mongodb.com/manual/administration/install-community/)
+2.[macOS | Windows | Linux安装教程](https://docs.mongodb.com/manual/administration/install-community/)
