@@ -72,7 +72,12 @@ WriteResult({ "nInserted" : 1 })
 
 第一个命令将数字 10 插入到 runoob 集合的 x 字段中。
 
----
+## 作业
+
+至少需完成参考资料 1 中 M001 课程前两个 Chapter, 感兴趣可以完成整个 M001 课程。
+
+- Chapter 0: Setup
+- Chapter 1: Introduction
 
 # 参考学习资料
 
