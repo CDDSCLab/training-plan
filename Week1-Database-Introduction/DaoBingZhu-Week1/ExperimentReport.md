@@ -5,7 +5,18 @@
 
  * 安装Redis `$ sudo pacman -S  redis`
 
- * 安装Mariadb（Arch Linux 下使用的社区维护的MySQL）`$ sudo pacman -S mariadb`
+ * 安装Mariadb（Arch Linux 下使用的社区维护的MySQL）
+
+   ```sql
+     $ sudo pacman -S mariadb
+     # initialize
+     $ mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/
+     $ mysql_secure_installation
+     # 开启服务这个每个数据库都需要
+     $ systemctl start mariadb
+   ```
+
+ * 安装MongoDB
 
  * 安装j
 
@@ -60,7 +71,7 @@
     * 本地机通过`$ redis-cli -h 127.0.0.1 -p 6378` 从127.0.0.1:6378连接到位于容器中127.0.0.1:6379的Redis服务。
 
     * `$ docker exec -it redis-test /bin/bash `容器中先开启bash再通过`$ redis-cli`直接连接到127.0.0.1：6379。
- ## Step2：通过redis-test连接并进行实验
+ ## Step2：通过redis-cli连接并进行实验
 
 0.  本地机执行`> set mykey somevalue`,容器机可以通过`> get mykey `获取值`somevalue`说明redis支持多个客户端访问（后续只用一个客户端访问）。
 
@@ -332,10 +343,9 @@
    ```bash
    > pfadd hll a b c d
    (integer) 1
-> pfcount hll
+   > pfcount hll
    (integer) 4
    ```
-   
 
  ## 特点：
 
@@ -350,6 +360,111 @@
  	- 基数估计HLL[基数估计原理](http://www.rainybowe.com/blog/2017/07/13/%E7%A5%9E%E5%A5%87%E7%9A%84HyperLogLog%E7%AE%97%E6%B3%95/index.html?utm_source=tuicool&utm_medium=referral)
 
  # 实验二 MySQL的安装和使用
+ ## Step1：Docker环境下安装MySQL并启动MySQL服务
+1. `$ docker run --name mysql-test -p 3305:3306 -e MYSQL_ROOT_PASSWORD=your_pass_word mysql` 开启服务
+2.  容器机`$docker exec -it mysql-test /bin/bash `打开bash再通过`$ mysql -h localhost -u root -p 输入` your_pass_word 连接好服务。
+
+ ## Step2：建立一个student表和student_info表，并查询一个学生对应的student_info信息
+```SQL
+# 创建数据库并切换到目标数据库
+create database h_test;
+use h_test;
+# 创建学生表 （学号，姓名，性别，团队号，电话）
+CREATE TABLE STUDENT(
+ SID     BIGINT  UNSIGNED PRIMARY KEY  AUTO_INCREMENT,
+ NAME    VARCHAR(40),
+ SEX     VARCHAR(4)  DEFAULT 'male' CHECK(SEX IN ('male','female')),
+ TID     INT UNSIGNED,
+ TEL     INT UNSIGNED
+)engine=InnoDB default charset=utf8 auto_increment=1;
+# 创建学生信息表（SID 高考英语、数学、语文、综合成绩）
+CREATE TABLE STUDENT_INFO(
+SID BIGINT UNSIGNED PRIMARY KEY  AUTO_INCREMENT,
+ENGLISH_SCORE INT UNSIGNED NOT NULL,
+MATH_SCORE INT UNSIGNED NOT NULL,
+CHINESE_SCORE INT UNSIGNED NOT NULL,
+COMPREHENSIVE_SCORE INT UNSIGNED NOT NULL
+)engine=InnoDB default charset=utf8 auto_increment=1;
+# 添加学生信息表对学生表学号的外键
+ALTER TABLE STUDENT_INFO
+ADD CONSTRAINT INFO_STUDENT FOREIGN KEY(SID) 
+REFERENCES STUDENT(SID) ON DELETE  CASCADE ON UPDATE CASCADE;
+# 学生表插入三条数据
+INSERT INTO STUDENT(SID,NAME,SEX,TID,TEL) VALUES (2020060101001,'icepig01','male',01,1234567891);
+INSERT INTO STUDENT (SID,NAME,SEX,TID,TEL)
+VALUES(2020060101002,'icepig02','male',01,1234567891);
+INSERT INTO STUDENT （NAME,SEX,TID,TEL）
+VALUES('icepig03','male',01,1234567891);
+# 学生信息表插入三条数据
+INSERT INTO STUDENT_INFO (SID,ENGLISH_SCORE,MATH_SCORE,CHINESE_SCORE,COMPREHENSIVE_SCORE)
+VALUES(2020060101001,120,120,110,250);
+INSERT INTO STUDENT_INFO (SID,ENGLISH_SCORE,MATH_SCORE,CHINESE_SCORE,COMPREHENSIVE_SCORE)
+VALUES(2020060101002,130,130,110,270);
+INSERT INTO STUDENT_INFO (SID,ENGLISH_SCORE,MATH_SCORE,CHINESE_SCORE,COMPREHENSIVE_SCORE)
+VALUES(2020060101003,135,135,110,270);
+# 显示建表效果
+SELECT * FROM STUDENT;
++---------------+----------+------+------+------------+
+| SID           | NAME     | SEX  | TID  | TEL        |
++---------------+----------+------+------+------------+
+| 2020060101001 | icepig01 | male |    1 | 1234567891 |
+| 2020060101002 | icepig02 | male |    1 | 1234567891 |
+| 2020060101003 | icepig03 | male |    1 | 1234567891 |
++---------------+----------+------+------+------------+
+SELECT * FROM STUDENT_INFO;
++---------------+---------------+------------+---------------+---------------------+
+| SID           | ENGLISH_SCORE | MATH_SCORE | CHINESE_SCORE | COMPREHENSIVE_SCORE |
++---------------+---------------+------------+---------------+---------------------+
+| 2020060101001 |           120 |        120 |           110 |                 250 |
+| 2020060101002 |           130 |        130 |           110 |                 270 |
+| 2020060101003 |           135 |        135 |           110 |                 270 |
++---------------+---------------+------------+---------------+---------------------+
+# 学生信息表增加总分列，并设置为其他三列的值
+ALTER TABLE STUDENT_INFO ADD COLUMN TOTAL_SCORE INT;
+UPDATE STUDENT_INFO SET TOTAL_SCORE = ENGLISH_SCORE+MATH_SCORE+CHINESE_SCORE+COMPREHENSIVE_SCORE;
+# 通过JOIN 查看两表数据 USING 去除重复字段。
+SELECT * FROM STUDENT JOIN STUDENT_INFO USING (SID);
++---------------+----------+------+------+------------+---------------+------------+---------------+---------------------+-------------+
+| SID           | NAME     | SEX  | TID  | TEL        | ENGLISH_SCORE | MATH_SCORE | CHINESE_SCORE | COMPREHENSIVE_SCORE | TOTAL_SCORE |
++---------------+----------+------+------+------------+---------------+------------+---------------+---------------------+-------------+
+| 2020060101001 | icepig01 | male |    1 | 1234567891 |           120 |        120 |           110 |                 250 |         600 |
+| 2020060101002 | icepig02 | male |    1 | 1234567891 |           130 |        130 |           110 |                 270 |         640 |
+| 2020060101003 | icepig03 | male |    1 | 1234567891 |           135 |        135 |           110 |                 270 |         650 |
++---------------+----------+------+------+------------+---------------+------------+---------------+---------------------+-------------+
+# 清库跑路
+drop table STUDENT_INFO;
+drop table STUDENT;
+drop database h_test;
+```
+
+ ## 特点：
+
+* 命令不区分大小写，database name table name field name 区分大小写。
+* 字符串可以用‘ ’ 也应恶意用“ ”。 
+
+ ## TODO：
+
+ 	- 关系表设计范式。
+ 	- 事物ACID。
+ 	- 一个SQL的执行过程。
+
+ # 实验三 MongoDB的安装和使用
+ ## Step1：Docker环境下安装MongoDB并启动MongoDB服务
+1. `$ docker run -id --name mongodb-test -p 27016:27017 mongo ` 开启服务
+2.  容器机`$docker exec -it mongodb-test /bin/bash `打开bash再通过`$ mongo -h localhost -u root -p 输入` your_pass_word 连接好服务。
+
+ ## Step2：
+xxx
+ ## 特点：
+
+xxx
+
+ ## TODO：
+
+ 	- 
+ 	- 
+
+ # 实验四 
  ## Step1：
 xxx
  ## Step2：
@@ -363,30 +478,6 @@ xxx
  	- 
  	- 
 
- # 实验三
- ## Step1：
-xxx
- ## Step2：
-xxx
- ## 遇到的问题：
+   ```
 
-xxx
-
- ## TODO：
-
- 	- 
- 	- 
-
- # 实验四
- ## Step1：
-xxx
- ## Step2：
-xxx
- ## 遇到的问题：
-
-xxx
-
- ## TODO：
-
- 	- 
- 	- 
+   ```
