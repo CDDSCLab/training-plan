@@ -140,24 +140,23 @@ select student.id,class,identity,address,name,age from student ,student_info as 
 
 ## Step 1 Mongodb介绍与安装
 
-   2. 存储结构介绍
+1. 存储结构介绍
+   1. ObjectId
+          Mongodb自身提供ObjectId,如果在创建时不自己提供id，它会根据所在服务器进程和时间生成id,相比于Mysql提供的自增id，避免在大量访问的时候必须顺序插入来保证id的唯一的缺点。
 
-         1. ObjectId
-                Mongodb自身提供ObjectId,如果在创建时不自己提供id，它会根据所在服务器进程和时间生成id,相比于Mysql提供的自增id，避免在大量访问的时候必须顺序插入来保证id的唯一的缺点。
+   2. 数据结构层次
 
-         2. 数据结构层次
+      Mongodb中数据库的存储分为三个层次，database,colletction和document。每一个数据库会有自己的文件夹，数据的文件内部被分为多个块，集合存储着文档。mongodb中最大的名称空间为集合，mongodb每一个索引对应着一个名称空间。在内部存储中集合和索引的存储是相似的。Mongodb底层数据结构为B树。
 
-            Mongodb中数据库的存储分为三个层次，database,colletction和document。每一个数据库会有自己的文件夹，数据的文件内部被分为多个块，集合存储着文档。mongodb中最大的名称空间为集合，mongodb每一个索引对应着一个名称空间。在内部存储中集合和索引的存储是相似的。Mongodb底层数据结构为B树。
+2. Mongodb安装
 
-3. Mongodb安装
+```bash
+	sudo apt install mongodb
+```
 
-   ```bash
-   sudo apt install mongodb
-   ```
+在ubuntu下会进行自动的安装，并且设置自启动
 
-   在ubuntu下会进行自动的安装，并且设置自启动
 
-   
 
 ## Step 2 Mongodb的基本使用
 
@@ -1095,11 +1094,4 @@ sudo apt-get install redis-server
    ```
 
    PFADD 为指定key中添加值，pfcount统计不同个数的值。
-   
-   ## 遇到的问题：
-   
-   ## TODO：
-   
-   * 对于底层架构进行理解
-   * 对于数据的存储方式进行理解
 
