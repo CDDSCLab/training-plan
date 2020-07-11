@@ -796,7 +796,7 @@ remove: true
 
  ## Step2：[体验Janus Graph](https://docs.janusgraph.org/getting-started/basic-usage/) [中文版本](https://juejin.im/entry/5cc02153f265da03502b3c9a)
 
-![希腊众神图](/home/icepig/project/training-plan/Week1-Database-Introduction/DaoBingZhu-Week1/ExperimentReport.assets/16a4e8272128aba8)
+![希腊众神图](/home/icepig/project/training-plan/Week1-Database-Introduction/DaoBingZhu-Week1/ExperimentReport.assets/godsGraph.jpg)
 
 | 标示          | 含义                           |
 | ------------- | ------------------------------ |
