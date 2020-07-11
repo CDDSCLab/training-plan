@@ -1,24 +1,61 @@
  # 实验零 环境配置
 ​    环境：archlinux
 
- * 安装Docker `$ sudo pacman -S docker`
+ * 宿主机安装Redis以及本地启动服务与连接
 
- * 安装Redis `$ sudo pacman -S  redis`
-
- * 安装Mariadb（Arch Linux 下使用的社区维护的MySQL）
-
-   ```sql
-     $ sudo pacman -S mariadb
-     # initialize
-     $ mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/
-     $ mysql_secure_installation
-     # 开启服务这个每个数据库都需要
-     $ systemctl start mariadb
+   ```bash
+   $ sudo pacman -S  redis
+   # 启动redis服务
+   $ systemctl start redis
+   # 直接就可以连上了
+   $ redis-cli
    ```
 
- * 安装MongoDB
+ * 宿主机安装Mariadb以及本地启动服务与连接（Arch Linux 下使用的社区维护的MySQL,装了这个之后不能装MySql）
 
- * 安装j
+   ```bash
+   $ sudo pacman -S mariadb
+   # initialize 不初始化的话会报错哦哦
+   $ mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/
+   $ mysql_secure_installation
+   # 开启服务这个每个数据库都需要
+   $ systemctl start mariadb
+   # 默认root密码为空
+   $ mariadb/mysql -u root -p
+   ```
+
+ * 宿主机安装MongoDB以及本地启动服务与连接
+
+   ```bash
+   $ sudo pacman S mongo
+   # 在/ root目录下面新建了 /data/db 这个目录是默认路径,如果要改可以用--dbpath,把这个路径给mongo才能启动之 
+   # 在root目录下建文件夹会是root root 用户和用户组的
+   # 直接 mongod的时候出现了权限错误说/data/db是只读的,通过 ls -l 发现所属者和用户组都是root,可以通过sudo来执行,一劳永逸的办法是给文件夹改权限
+   $ sudo chown -R 用户名:用户名所在组  /data
+   # 在启动mongo服务就不会报错了  也可以使用systemctl start mongodb在后台开启mongod服务器
+   $ mongod 
+   # 打开shell连接服务器
+   $ mongo
+   ```
+
+ * 宿主机安装janusGraph以及本地启动服务与连接
+
+   ```bash
+   # 从github Release下载 https://github.com/JanusGraph/janusgraph/releases下载full版本
+   $ unzip janusgraph-0.5.2.zip
+   # 启动
+   $ cd janusgraph-0.5.2
+   # 启动服务
+   $ ./bin/gremlin-server.sh start 或者 ./bin/gremlin-server.sh  
+   # 连接服务器
+   $ ./bin/gremlin.sh
+   gremlin> :remote connect tinkerpop.server conf/remote.yaml
+   ==>Configured 172.17.0.2/172.17.0.2:8182
+   # 注意 除了gremlin-server.sh  还可以用./janusgraph.sh start 再用gremlin连
+   # 二者之间的区别 Info: https://docs.janusgraph.org/getting-started/installation/
+   ```
+   
+ * 宿主机安装Docker `$ sudo pacman -S docker`
 
  * [Docker 基本使用命令](https://www.runoob.com/docker/docker-command-manual.html)
 
@@ -28,11 +65,12 @@
    # -d 后台运行容器，并返回容器ID；
    # -p 指定端口映射，格式为：主机(宿主)端口:容器端口
    # --name  为容器指定一个名称；
+   # --rm 在Docker容器退出时，默认容器内部的文件系统仍然被保留，以方便调试并保留用户数据。rm选项，这样在容器退出时就能够自动清理容器内部的文件系统。
+   # --link 添加链接到另一个容器；
+   # -volume 绑定一个卷 挂载之后docker用的 ref：https://www.cnblogs.com/51kata/p/5266626.html
+   # -volumes-from
    # 使用镜像imageName以交互模式启动一个容器,在容器内执行/bin/bash命令,如果本地没有这个image会从Docker Hub拉取。
    $ docker run --name containerName -itd -p computerPort:containerPort imageName /bin/bash
-   ```
-
-   ```bash
    # 带-a显示全部container，不带-a显示正在运行的container
    $ docker container ls -a = docker ps -a
    # 显示image
@@ -41,6 +79,8 @@
    $ docker container rm [CONTAINER...]
    # 删除image 只能删除已经没有被使用的image
    $ docker image rm [CONTAINER...]
+   ```
+   ```bash
    # 都是停止运行一个container前者更为温和用的是SIGTERM 后者用的是SIGKILL
    $ docker container stop [CONTAINER...]
    $ docker container kill [CONTAINER...]
@@ -49,14 +89,29 @@
    ```bash
    # 在运行的容器中执行命令
    docker exec -itd CONTAINER [ARG... /bin/bash]
+   # 刪除<none>:<none>的所有 dangling images，指的是没有标签并且没有被容器使用的镜像。 https://blog.csdn.net/boling_cavalry/article/details/90727359
+   docker image prune
    ```
+   
+* 这几种数据库的简单比较
+
+  | 数据库名称 | 类型     | 查询语言                                                   | 实现语言                                         | 事务ACID的支持 | 特点                            | 默认端口 | 应用场景  |
+  | ---------- | -------- | ---------------------------------------------------------- | ------------------------------------------------ | -------------- | ------------------------------- | -------- | --------- |
+  | Redis      | KV       | [内置](https://redis.io/documentation)                     | [C](https://github.com/redis/redis)              | 弱             | 内存数据库快,EXPIRE数据过期功能 | 6379     | OLAP,OLTP |
+  | MySQL      | SQL      | SQL                                                        | [C++](https://www.mysql.com/cn/)                 | 强             | SQL,用的广,数据来大会比较慢     | 3306     | OLTP      |
+  | MongoDb    | Document | [内置](https://docs.mongodb.com/manual/reference/command/) | [C++](https://github.com/mongodb/mongo)          | 弱             | bson支持的数据格式比较丰富,mmap | 27017    | OLAP,OLTP |
+  | JanusGraph | Graph    | [Gremlin](https://tinkerpop.apache.org/gremlin.html)       | [java](https://github.com/JanusGraph/janusgraph) | 强             | 直观                            | 8182     | OLAP,OLTP |
+
 ## TODO：
 
-* 使用DockerFIle一口气配置好Docker环境上的四种数据库。
+* DockerFIle的使用
 
-  ```dockerfile
-  
-  ```
+* [-v 实现容器间、docker与宿主机之间的数据共享](https://www.cnblogs.com/51kata/p/5266626.html)
+
+* Docker attach 
+
+* Docker 性能
+
 
 # 实验一 [Redis的安装和使用](https://redis.io/)
 
@@ -351,11 +406,11 @@
 
 * Redis keys are binary safe, this means that you can use any binary sequence as a key, from a string like "foo" to the content of a JPEG file. The empty string is also a valid key.The maximum allowed key size is 512 MB.
 * Automatic creation and removal of keys applies to all the Redis data types composed of multiple elements -- Streams, Sets, Sorted Sets and Hashes.
-* 最大的收获是熟悉了redis一部分命令文档，以后有不懂的可以直接差redis文档了。
+* 最大的收获是熟悉了redis一部分命令文档，以后有不懂的可以直接查redis文档了。
 
  ## TODO：
 
- 	- 为什么有RPOPLPUSH 却没有LPOPLPUSH，队列先进先出所以是RPOPLPUSH。如果是栈的话，后进先出如果按这个逻辑来说应该要有一个RPOPLPUSH吧
+ 	- 为什么有RPOPLPUSH 却没有LPOPLPUSH，队列先进先出所以是RPOPLPUSH。如果是栈的话，后进先出如果按这个逻辑来说应该要有一个RPOPLPUSH吧---->解决方法.在使用堆栈的时候把List反着用,RPUSH.
  	- 如果有时间重新看看[《Redis设计与实现》](http://redisbook.com/)了解一下具体的每个data type是哪种数据结构实现的。
  	- 基数估计HLL[基数估计原理](http://www.rainybowe.com/blog/2017/07/13/%E7%A5%9E%E5%A5%87%E7%9A%84HyperLogLog%E7%AE%97%E6%B3%95/index.html?utm_source=tuicool&utm_medium=referral)
 
@@ -440,7 +495,7 @@ drop database h_test;
  ## 特点：
 
 * 命令不区分大小写，database name table name field name 区分大小写。
-* 字符串可以用‘ ’ 也应恶意用“ ”。 
+* 字符串可以用‘ ’ 也可以用用“ ”。 
 
  ## TODO：
 
@@ -449,35 +504,390 @@ drop database h_test;
  	- 一个SQL的执行过程。
 
  # 实验三 MongoDB的安装和使用
- ## Step1：Docker环境下安装MongoDB并启动MongoDB服务
+ ## Step1：Docker环境下安装MongoDB并连接远程Atlas
+ * 情况1 2个docker容器一个当服务器，一个当客户端。
 1. `$ docker run -id --name mongodb-test -p 27016:27017 mongo ` 开启服务
-2.  容器机`$docker exec -it mongodb-test /bin/bash `打开bash再通过`$ mongo -h localhost -u root -p 输入` your_pass_word 连接好服务。
 
- ## Step2：
-xxx
+2. 容器机`$docker exec -it mongodb-test /bin/bash `打开bash再通过`$ mongo -h localhost -u root -p 输入` your_pass_word 连接好服务。
+
+* 情况2 docker内环境连接，宿主机连的话一样的。
+1. 在mongo官网新建一个免费的Atlas,mongo公司有能力云服务
+
+2. `$ docker run -it --name mongo-test -v /home/icepig/M001:/data mongo    /bin/bash`进入docker mongo容器根据教材下载loadMovieDetailsDataset.zip 解压到/home/icepig/M001 因为docker要用到用到外面的空间,所以-v 挂载一下,挂载的话空间就共享了,可以设置多个挂载点.
+
+   ```
+   root帐号进入 /var/lib/docker/containers/Contianer-Id/config.v2.json 可以手动修改挂载点.
+   "MountPoints":{"/data":{"Source":"/home/icepig/M001","Destination":"/data","RW":true,"Name":"","Driver":"","Type":"bind","Propagation":"rprivate","Spec":{"Type":"bind","Source":"/home/icepig/M001","Target":"/data"},"SkipMountpointCreation":false},
+   ```
+
+3. `cd /data` ` load(loadMovieDetailsDataset.js)` 加载数据到mongoDB
+
+4. `$ mongo "mongodb+srv://cluster0.uj1f5.mongodb.net" --username m001  `连接远程Atlas，需要先通过`cat /etc/hosts`查看当前docker容器中的IP地址通过mongo网页加入到ip whitelist里面，才能正常连接成功。
+
+ ## Step2：学习mongo的使用
+
+* [实验记录](https://university.mongodb.com/mercury/M001/2020_July_7/chapter/Chapter_2_The_MongoDB_Query_Language_Atlas/lesson/595aae2236942e83e9a361a9/lecture)
+
+```javascript
+# question 1 How many documents in video.movieDetails match the filter {genres: "Comedy"}?
+$ db.movieDetails.find({genres: "Comedy"}).length()
+# question 2 插入一个字段并查找
+$ db.movieDetails.insert({"title":""})
+$ db.movieDetails.find({title: ""})
+# question 3 How many movies in the movieDetails collection have exactly 2 award wins and 2 award nominations?
+$ db.movieDetails.find({"awards.wins": 2, "awards.nominations": 2}).count()
+# question 4 How many movies in the movieDetails collection are rated PG and have exactly 10 award nominations?
+$ db.movieDetails.find({"rated": "PG", "awards.nominations": 10}).count()
+# question 5 How many documents list just two writers: "Ethan Coen" and "Joel Coen", in that order?
+$ db.movieDetails.find({"writers": ["Ethan Coen","Joel Coen"]})
+# question 6 How many movies in the movieDetails collection list "Family" among its genres?
+$ db.movieDetails.find({"genres":"Family"}).count()
+$ db.movieDetails.find({genres:{$in:["Family"]}}).length()
+# question 7 How many movies in the movieDetails collection list "Western" second among its genres?
+$ db.movieDetails.find({"genres.1":"Western"}).count()
+# question 8 How many documents in the 100YWeatherSmall.data collection do NOT contain the key atmosphericPressureChange?
+$ db.data.find({atmosphericPressureChange: {$exists: false}}).count()
+# question 9 shipwrecks collection match either of the following criteria: watlev equal to "always dry" or depth equal to 0.
+$ db.shipwrecks.find({$or: [{depth: 0}, {watlev: "always dry"}]}).count()
+# question 10 How many documents list: "AG1", "MD1", and "OA1" among the codes in their sections array.
+$ db.data.find({sections: {$all: ["AG1", "MD1", "OA1"]}}).count()
+# question 11 How many documents in this collection contain exactly two elements in the sections array field?
+$ db.data.find({sections: {$size: 2}}).count()
+# question 12 How many documents in the results.surveys collection contain a score of 7 for the product, "abc"?
+$ db.surveys.find({results: {$elemMatch: {score: 7, product: "abc"}}}).count()
+```
+
+* 命令大全
+
+```
+1、Help查看命令提示
+help
+db.help();
+db.yourColl.help();
+
+2、切换/创建数据库
+use raykaeso; 当创建一个集合(collection/table)的时候会自动创建当前数据库
+
+3、查询所有数据库
+show dbs;
+
+4、删除当前使用数据库
+db.dropDatabase();
+
+5、从指定主机上克隆数据库
+db.cloneDatabase(“127.0.0.1”); 将指定机器上的数据库的数据克隆到当前数据库
+
+6、从指定的机器上复制指定数据库数据到某个数据库
+db.copyDatabase(“mydb”, “temp”, “127.0.0.1”);将本机的mydb的数据复制到temp数据库中
+
+7、修复当前数据库
+db.repairDatabase();
+
+8、查看当前使用的数据库
+db.getName()/db;
+
+9、显示当前db状态
+db.stats();
+
+10、当前db版本
+db.version();
+
+11、查看当前db的连接服务器机器地址
+db.getMongo();
+
+12、查询之前的错误信息和清除
+db.getPrevError();
+db.resetError();
+
+二、MongoDB Collection聚集集合
+1、创建一个聚集集合（table）
+db.createCollection(“collName”, {size: 20, capped: 5, max: 100});//创建成功会显示{“ok”:1}
+//判断集合是否为定容量db.collName.isCapped();
+
+2、得到指定名称的聚集集合（table）
+db.getCollection(“account”);
+
+3、得到当前db的所有聚集集合
+db.getCollectionNames();
+
+4、显示当前db所有聚集索引的状态
+db.printCollectionStats();
+
+5、查询当前集合的数据条数
+db.yourColl.count();
+
+6、查看当前集合数据空间大小
+db.yourColl.dataSize();
+
+7、得到当前聚集集合所在的db
+db.yourColl.getDB();
+
+8、得到当前聚集的状态
+db.coll.stats();
+
+9、得到聚集集合总大小
+db.coll.totalSize();
+
+10、聚集集合储存空间大小
+db.coll.storageSize();
+
+11、聚集集合重命名
+db.coll.renameCollection(“ray”); 将coll重命名为ray
+
+12、删除当前聚集集合
+db.coll.drop();
+
+三、MongoDB用户相关
+1、添加一个用户（创建）
+db.createUser({user: 'username', pwd: 'xxxx', roles: [{role: 'readWrite', db: 'dbname'}]}); 添加用户、设置密码、是否只读
+
+2、数据库认证、安全模式(登录)
+db.auth(“ray”, “123456”);
+
+3、显示当前所有用户
+show users;
+
+4、删除用户
+db.removeUser(“userName”);
+
+四、MongoDB聚集集合查询
+1、查询所有记录
+db.userInfo.find();
+相当于：select* from userInfo;
+默认每页显示20条记录，当显示不下的情况下，可以用it迭代命令查询下一页数据。注意：键入it命令不能带“;”
+但是你可以设置每页显示数据的大小，用DBQuery.shellBatchSize= 50;这样每页就显示50条记录了。
+
+2、查询去掉后的当前聚集集合中的某列的重复数据
+db.userInfo.distinct(“name”);
+会过滤掉name中的相同数据
+相当于：select distict name from userInfo;
+
+3、查询age = 22的记录
+db.userInfo.find({“age”: 22});
+相当于： select * from userInfo where age = 22;
+
+4、条件查询的记录
+MongoDB中条件操作符有：
+(>) 大于 – $gt
+(<) 小于 – $lt (>=) 大于等于 – $gte
+(<= ) 小于等于 – $lte db.userInfo.find({age: {$gt: 22}}); 相当于：select * from userInfo where age>22;
+
+db.userInfo.find({age: {$lt: 22}});
+相当于：select * from userInfo where age<22; db.userInfo.find({age: {$gte: 25}}); 相当于：select * from userInfo where age >= 25;
+
+db.userInfo.find({age: {$lte: 25}});
+相当于：select * from userInfo where age <= 25; 5、and查询 db.userInfo.find({age: {$gte: 23, $lte: 26}}); 相当于：select * from userInfo wher age >=23 and age <=26
+db.userInfo.find({name: ‘raykaeso’, age: 22});
+相当于：select * from userInfo where name = ‘raykaeso’ and age = ‘22′;
+
+6、字符模糊查询
+db.userInfo.find({name: /mongo/});
+//相当于%%
+[code]select * from userInfo where name like ‘%mongo%';
+
+7、查询指定列数据
+db.userInfo.find({}, {name: 1, age: 1});
+相当于：select name, age from userInfo;
+当然name也可以用true或false
+
+8、按条件查询指定列数据
+db.userInfo.find({age: {$gt: 25}}, {name: 1, age: 1});
+相当于：select name, age from userInfo where age <25;
+
+9、排序
+升序：db.userInfo.find().sort({age: 1});
+降序：db.userInfo.find().sort({age: -1});
+
+10、查询前5条数据
+db.userInfo.find().limit(5);
+相当于：select * from userInfo limit 5;
+
+11、查询10条以后的数据
+db.userInfo.find().skip(10);
+相当于：select count(*) from userInfo as total;
+select * from userInfo limit 10,total;
+
+12、查询在5-10之间的数据
+db.userInfo.find().limit(10).skip(5);
+可用于分页，limit是pageSize，skip是第几页*pageSize
+相当于：select * from userInfo limit 5,10;
+
+13、or与 查询
+db.userInfo.find({$or: [{age: 22}, {age: 25}]});
+相当于：select * from userInfo where age = 22 or age = 25;
+
+14、查询第一条数据
+db.userInfo.findOne();
+db.userInfo.find().limit(1);
+相当于：select * from userInfo limit 1;
+
+15、查询某个结果集的记录条数
+db.userInfo.find({age: {$gte: 25}}).count();
+相当于：select count(*) from userInfo where age >= 20;
+
+五、MongoDB索引
+1、创建索引
+db.userInfo.ensureIndex({name: 1});
+db.userInfo.ensureIndex({name: 1, ts: -1});
+
+2、查询当前聚集集合所有索引
+db.userInfo.getIndexes();
+
+3、查看总索引记录大小
+db.userInfo.totalIndexSize();
+
+4、读取当前集合的所有index信息
+db.users.reIndex();
+
+5、删除指定索引
+db.users.dropIndex(“name_1″);
+
+6、删除所有索引索引
+db.users.dropIndexes();
+
+六、MongoDB修改、添加、删除集合数据
+1、添加
+db.users.save({name: ‘zhangsan’, age: 25, sex: true});
+添加的数据的数据列，没有固定，根据添加的数据为准
+
+2、修改
+db.users.update({age: 25}, {$set: {name: ‘changeName’}}, false, true);
+相当于：update users set name = ‘changeName’ where age = 25;
+db.users.update({name: ‘Lisi’}, {$inc: {age: 50}}, false, true);
+相当于：update users set age = age + 50 where name = ‘Lisi';
+db.users.update({name: ‘Lisi’}, {$inc: {age: 50}, $set: {name: ‘hoho’}}, false, true);
+相当于：update users set age = age + 50, name = ‘hoho’ where name = ‘Lisi';
+
+3、删除
+db.users.remove({age: 132});
+
+4、查询修改删除
+db.users.findAndModify({
+query: {age: {$gte: 25}},
+sort: {age: -1},
+update: {$set: {name: ‘a2′}, $inc: {age: 2}},
+remove: true
+});  
+```
+
  ## 特点：
 
-xxx
+* MongoDB的基本概念
+
+| SQL术语/概念 | MongoDB术语/概念 | 解释/说明                           |
+| :----------- | :--------------- | :---------------------------------- |
+| database     | database         | 数据库                              |
+| table        | collection       | 数据库表/集合                       |
+| row          | document         | 数据记录行/文档                     |
+| column       | field            | 数据字段/域                         |
+| index        | index            | 索引                                |
+| table joins  |                  | 表连接,MongoDB不支持                |
+| primary key  | primary key      | 主键,MongoDB自动将_id字段设置为主键 |
 
  ## TODO：
 
- 	- 
- 	- 
+ 	- 学习和记录正则.
 
- # 实验四 
- ## Step1：
-xxx
- ## Step2：
-xxx
+ # 实验四 JanusGraph的安装和使用
+ ## Step1：根据[Janus Graph docker github开源项目](https://github.com/JanusGraph/janusgraph-docker)开启服务和连接服务
+1. `docker run --rm --name janusgraph-default janusgraph/janusgraph:latest` 打开服务
+2. `docker run --rm --link janusgraph-default:janusgraph -e GREMLIN_REMOTE_HOSTS=janusgraph 
+       -it janusgraph/janusgraph:latest ./bin/gremlin.sh`一步到位直接执行了./bin/gremlin.sh 注意一定要有.应该是image 文件上做了挂载吧
+
+ ## Step2：[体验Janus Graph](https://docs.janusgraph.org/getting-started/basic-usage/) [中文版本](https://juejin.im/entry/5cc02153f265da03502b3c9a)
+
+![希腊众神图](/home/icepig/project/training-plan/Week1-Database-Introduction/DaoBingZhu-Week1/ExperimentReport.assets/16a4e8272128aba8)
+
+| 标示          | 含义                           |
+| ------------- | ------------------------------ |
+| 加粗的key     | 图中的索引键                   |
+| 加粗带星的key | 图中的索引键值必须是唯一的     |
+| 带下划线的key | 以顶点为中心的索引键           |
+| 空心箭头的边  | 特定的边(不能重复)             |
+| 尾部十字的边  | 单项边(只能在一个方向建立关系) |
+
+```gremlin
+# 远程连接
+gremlin> :remote connect tinkerpop.server conf/remote.yaml
+==>Configured localhost/127.0.0.1:8182
+# open和load在图形上创建全局和顶点中心索引的集合。将所有顶点及其属性添加到图形中。将所有边线及其属性添加到图形中。
+# open  -inmemory
+gremlin> graph = JanusGraphFactory.open('conf/janusgraph-inmemory.properties')
+==>standardjanusgraph[inmemory:[127.0.0.1]]
+# 加载图对象 用GraphOfTheGodsFactory.loadWithoutMixedIndex而不是GraphOfTheGodsFactory.load,后者报错
+gremlin> GraphOfTheGodsFactory.loadWithoutMixedIndex(graph, true)
+# 遍历图存到变量g中
+gremlin> g = graph.traversal()
+==>graphtraversalsource[standardjanusgraph[cql:[127.0.0.1]], standard]
+# 通过name属性上的唯一索引，可以检索到Saturn顶点 .next()
+gremlin> saturn = g.V().has('name', 'saturn').next()
+# valueMap() 点或边的所有属性
+gremlin> g.V(saturn).valueMap()
+==>[name:[saturn], age:[10000]]
+# 通过边的名称查连接点
+gremlin> g.V(saturn).in('father').in('father').values('name')
+==>hercules
+# .as('source')存临时变量,方便后面用;inV() 访问边的入顶点，入顶点是指边的目标顶点，也就是箭头指向的顶点；outV() 问边的出顶点，出顶点是指边的起始顶点；显示name这个属性
+gremlin> g.E().has('place', geoWithin(Geoshape.circle(37.97, 23.72, 50))).as('source').inV().as('god2').select('source').outV().as('god1').select('god1', 'god2').by('name')
+==>[god1:hercules, god2:hydra]
+==>[god1:hercules, god2:nemean]
+# repeat(   ).times( ) 
+gremlin> hercules = g.V(saturn).repeat(__.in('father')).times(2).next()
+# 根据边找其他点的属性
+gremlin> g.V(hercules).out('father', 'mother').values('name')
+==>jupiter
+==>alcmene
+# label() 
+gremlin> g.V(hercules).out('father', 'mother').label()
+==>god
+==>human
+# 根据某个属性进行条件选择 gt
+gremlin> g.V(hercules).outE('battled').has('time', gt(1)).inV().values('name')
+==>cerberus
+==>hydra
+# 先out('lives')就到了pluto住的地方Tartarus,再in('lives')就能够显示出谁住在这,可以在按条件选择
+gremlin> g.V(pluto).out('lives').in('lives').values('name')
+==>pluto
+gremlin> g.V(pluto).out('lives').in('lives').where(is(neq(pluto))).values('name')
+==>cerberus
+gremlin> g.V(pluto).as('x').out('lives').in('lives').where(neq('x')).values('name')
+==>cerberus
+# Pluto的兄弟住在哪
+gremlin> g.V(pluto).out('brother').as('god').out('lives').as('place').select('god', 'place').by('name')
+==>[god:jupiter, place:sky]
+==>[god:neptune, place:sea]
+# Pluto的兄弟们根据这些地方的品质来选择他们居住的地方。
+gremlin> g.E().has('reason', textContains('loves')).as('source').values('reason').as('reason').select('source').outV().values('name').as('god').select('source').inV().values('name').as('thing').select('god', 'reason', 'thing')
+==>[god:neptune, reason:loves waves, thing:sea]
+==>[god:jupiter, reason:loves fresh breezes, thing:sky]
+```
+
+
+
  ## 遇到的问题：
 
-xxx
+1. 根据[Basic Usage](https://docs.janusgraph.org/getting-started/basic-usage/)命令顺序执行会遇到问题,文档其实有提示,注意提升阅读英文文档的能力.
+
+   ```gremlin
+   # 方法一 Basic Usage Info 提示 in-memory no index
+   Using any configuration file other than conf/janusgraph-inmemory.properties requires that you have a dedicated backend configured and running. If you just want to quickly open a graph instance and explore some of the JanusGraph features, you could simply choose conf/janusgraph-inmemory.properties to open an in-memory backend.
+   
+   # open的时候换一个配置文件
+   gremlin> graph = JanusGraphFactory.open('conf/janusgraph-cql.properties')
+   
+   # Insatllation Info提示
+   The default configuration (gremlin-server.yaml) uses it's own inmemory backend instead of a dedicated database server. No search backend is used by default, so mixed indices aren't supported as search backend isn't specified (Make sure you are using GraphOfTheGodsFactory.loadWithoutMixedIndex(graph, true) instead of GraphOfTheGodsFactory.load(graph) if you follow Basic Usage example). For further information about storage backends, visit the corresponding section of the documentation.
+   You are also encouraged to look into janusgraph.sh, which by defaults starts a more sophisticated server than gremlin-server.sh. Further documentation on server configuration can be found in the JanusGraph Server section. (This requires to download janusgraph-full-0.5.2.zip instead of the default janusgraph-0.5.2.zip.)
+   
+   # 加载的时候使用
+gremlin> GraphOfTheGodsFactory.loadWithoutMixedIndex(graph, true)
+   
+   # 方法二 使用完整版的janusgraph-full bin下面的 janusgraph.sh start启动服务再连接 然后根据步骤走就OK
+   ```
+   
 
  ## TODO：
 
- 	- 
- 	- 
+![gremlin running](/home/icepig/project/training-plan/Week1-Database-Introduction/DaoBingZhu-Week1/ExperimentReport.assets/gremlin-running.png)
 
-   ```
-
-   ```
+* Gremlin语法的学习与了解 [教程](http://tang.love/2018/11/15/gremlin_traversal_language/) [文档](http://tinkerpop-gremlin.cn/)
