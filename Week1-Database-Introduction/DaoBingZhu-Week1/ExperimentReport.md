@@ -880,8 +880,7 @@ gremlin> g.E().has('reason', textContains('loves')).as('source').values('reason'
    You are also encouraged to look into janusgraph.sh, which by defaults starts a more sophisticated server than gremlin-server.sh. Further documentation on server configuration can be found in the JanusGraph Server section. (This requires to download janusgraph-full-0.5.2.zip instead of the default janusgraph-0.5.2.zip.)
    
    # 加载的时候使用
-gremlin> GraphOfTheGodsFactory.loadWithoutMixedIndex(graph, true)
-   
+   gremlin> GraphOfTheGodsFactory.loadWithoutMixedIndex(graph, true)
    # 方法二 使用完整版的janusgraph-full bin下面的 janusgraph.sh start启动服务再连接 然后根据步骤走就OK
    ```
    
