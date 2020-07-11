@@ -796,7 +796,7 @@ remove: true
 
  ## Step2：[体验Janus Graph](https://docs.janusgraph.org/getting-started/basic-usage/) [中文版本](https://juejin.im/entry/5cc02153f265da03502b3c9a)
 
-![希腊众神图](../ExperimentReport.assets/godsGraph.jpg)
+![希腊众神图](images/godsGraph.jpg)
 
 | 标示          | 含义                           |
 | ------------- | ------------------------------ |
@@ -887,6 +887,6 @@ gremlin> g.E().has('reason', textContains('loves')).as('source').values('reason'
 
  ## TODO：
 
-![gremlin running](../ExperimentReport.assets/gremlin-running.png)
+![gremlin running](images/gremlin-running.png)
 
 * Gremlin语法的学习与了解 [教程](http://tang.love/2018/11/15/gremlin_traversal_language/) [文档](http://tinkerpop-gremlin.cn/)
