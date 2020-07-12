@@ -5,7 +5,7 @@
 ## Step1:Docker的安装 
 
 
- 
+
 //更新软件列表  
   sudo apt-get update  
 //安装Docker  
@@ -25,7 +25,7 @@
 ## Step2:MySQL的安装 
 
 
- 
+
 //从Docker仓库中拉取MySQL镜像  
   docker pull mysql  
 //查看是否拉取成功  
@@ -104,7 +104,7 @@
                 >update user set plugin="mysql_native_password";  
                 >update mysql.user set authentication_string=password('123456') where user='root' and Host='localhost';  
                 >sudo service mysql restart  
- 
+
  ## TODO  
 
 
@@ -280,7 +280,7 @@ Zset和Set一样也是string类型元素的集合，且不允许重复的成员�
   $docker exec -it mongo mongo admin  
 //创建用户名和密码  
   >db.createUser({user:'fanfan0217',pwd:'zhoufan19970217',roles:[{role:'userAdminAnyDatabase',db:'admin'}]});  
-// 使用上面创建的用户信息进行登录  
+  >// 使用上面创建的用户信息进行登录  
   >db.auth('fanfan0217','zhoufan19970217') 
 
 
@@ -290,29 +290,29 @@ Zset和Set一样也是string类型元素的集合，且不允许重复的成员�
 
 1. 进入当前数据库  
 > use admin  
-switched to db admin  
+> switched to db admin  
 
 2. 展示用户  
 > show users  
-...
-"user" : "fanfan0217",  
-"db" : "admin",  
-...
+> ...
+> "user" : "fanfan0217",  
+> "db" : "admin",  
+> ...
 
 3. 创建集合 
 > db.createCollection("students") 
- 
+
 4. 显示当前数据库的集合(students创建成功)          
 > show collections  
-class  
-students  
-runoob  
-system.users  
-system.version  
+> class  
+> students  
+> runoob  
+> system.users  
+> system.version  
 
 5. 无需提前创建集合，通过插入语句，数据库也会自动创建集合  
 > db.mycol2.insert({"name":"fanfan"})   
-writeResult({ "nInserted" : 1})   
+> writeResult({ "nInserted" : 1})   
 
 6. 删除集合  
 > db.mycol2.drop()  
@@ -331,7 +331,7 @@ writeResult({ "nInserted" : 1})
 
 11. 删除指定文档  
 >db.col.remove({'title':'mongodb jiaocheng'})  
-WriteRedult({ "nRemove" : 2})  
+>WriteRedult({ "nRemove" : 2})  
 
 12. 条件查询:by相当于MySQL中的where   
 >dol.col.find({"by":"cainiaojiaocheng","title":"mongo"}).pretty()  
@@ -367,14 +367,14 @@ root：只在admin数据库中可用。超级账号，超级权限
 
 
 ##TODO  
- 
+
 
           -Mongodb运行出错很多，之后还要多了解了解，多实践
           -先把所有命令行运行成功，再去了解基础知识   
 
 
 
- 
+
 # 实验四 Janusgraph的安装和使用
 
 还不太理解，对于java，配置文件等都还很模糊，以下几乎是照着官方实例运行了一遍
@@ -401,7 +401,7 @@ JanusGraph是一个可扩展的图形数据库，已优化用于存储和查询�
 
 
 ###加载众神图，选择conf/janusgraph-inmemory.properties快速打开一个内存后端(方法借鉴) 
-   
+
 //加载所有边，顶点，属性等  
 gremlin> graph=JanusGraphFactory.open('conf/janusgraph-inmemory.properties')  
 ==>standardjanusgraph[inmemory；[127.0.0.1]]  
@@ -506,61 +506,3 @@ pluto住在塔塔鲁斯，因为他不关心死亡，现在查询这些兄弟选
 //pluto选择住址的原因  
 gremlin> g.V(pluto).outE('lives').values('reason')  
 ==>no fear of death  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-  
-
- 
-
-
-          
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-        
-       * 
-       
-
-
-
-
-
-
-  
-  
-
-
-
