@@ -6,19 +6,19 @@
 
 
 
-//更新软件列表  
+更新软件列表  
   sudo apt-get update  
-//安装Docker  
+安装Docker  
   sudo apt install docker.io  
-//查看Docker是否安装成功  
+查看Docker是否安装成功  
   docker version  
-//启动Docker  
+启动Docker  
   systemctl start docker.service  
-//Docker项目实例：从官方仓库拉取image文件  
+Docker项目实例：从官方仓库拉取image文件  
   docker image pull library/hello-world(其中library/hello-world是image文件在仓库里面的位置，library是image文件所在的组，hello-world是image文件的名字）  
-//查看是否拉取成功  
+查看是否拉取成功  
   docker image ls  
-//运行这个容器  
+运行这个容器  
   docker container run hello-world(看到Hello from Docker即为成功)  
 
 
@@ -26,19 +26,19 @@
 
 
 
-//从Docker仓库中拉取MySQL镜像  
+从Docker仓库中拉取MySQL镜像  
   docker pull mysql  
-//查看是否拉取成功  
+查看是否拉取成功  
   docker images  
-//运行MySQL容器并设置密码  
+运行MySQL容器并设置密码  
   docker run -d -e MYSQL_ROOT_PASSWORD=zhoufan19970217 --name mysql-master -p 3307:3306 mysql  
-//查看是否安装成功  
+查看是否安装成功  
   docker ps  
-//连接Docker中的MySQL  
+连接Docker中的MySQL  
   docker exec -it mysql-master /bin/bash   
-//启动容器服务  
+启动容器服务  
   docker start mysql-master 
-//登录MySQL  
+登录MySQL  
   mysql -u root -p  
 
 
@@ -124,19 +124,19 @@
 
 
 
-//从Docker仓库中拉取redis最新镜像  
+从Docker仓库中拉取redis最新镜像  
   docker pull redis：latest    
-//查看是否拉取成功  
+查看是否拉取成功  
   docker images  
-//运行redis容器  
+运行redis容器  
   docker run -itd --name redis-test -p 6379:6379 redis  
-//查看是否安装成功  
+查看是否安装成功  
   docker ps  
-//通过redis-cli连接测试使用redis服务    
+通过redis-cli连接测试使用redis服务    
   docker exec -it redis-test /bin/bash  
-//启动容器服务 (如果容器没启动)    
+启动容器服务 (如果容器没启动)    
   docker start redis-test  
-//通过redis-cli连接  
+通过redis-cli连接  
   redis-cli  
 
 
@@ -151,15 +151,24 @@ string类型是二进制安全的。意思是redis的string可以包含任何数
 
 #### 具体操作
 
-//存储一个数据  
+* 存储一个数据  
+
   set username fanfan  
-//获得一个数据  
+
+* 获得一个数据  
+
   get username  
-//删除一个数据  
+
+* 删除一个数据  
+
   del username  
-//整数i+4  
+
+* 整数i+4  
+
   incrby i 4  
-//整数i-3  
+
+* 整数i-3  
+
   decrby i 3  
 
 ### 哈希类型(Hash)  
@@ -168,17 +177,28 @@ Hash是一个键值(key=>value)对集合，是一个string类型的field和value
 
 #### 具体操作
 
-//将哈希表blog中的字段field的值设为value(多个同时)  
+* 将哈希表blog中的字段field的值设为value(多个同时)  
+
   hmset blog title 'my first' auther 'zhoufan'  
-//获取所有给定字段的值  
+
+* 获取所有给定字段的值  
+
   hmget blog title auther   
-//获取哈希表中的所有值  
+
+* 获取哈希表中的所有值  
+
   hgetall blog  
-//获取哈希表中所有字段值  
+
+* 获取哈希表中所有字段值  
+
   hkeys blog  
-//获取哈希表中所有value值   
+
+* 获取哈希表中所有value值   
+
   hvals blog  
-//删除blog表中的多个数据  
+
+* 删除blog表中的多个数据  
+
   hdel blog auther username  
 
 ### 列表类型(List)  
@@ -187,19 +207,32 @@ redis列表是简单的字符串列表，按照插入顺序排序，你可以添
 
 #### 具体操作  
 
-//从左侧增加元素b  
+* 从左侧增加元素b  
+
   lpush mylist b  
-//从右侧增加元素c  
+
+* 从右侧增加元素c  
+
   rpush mylist c  
-//从a前插入d  
+
+* 从a前插入d  
+
   linsert mylist before a d  
-//返回所有元素  
+
+* 返回所有元素  
+
   lrange mylist 0 -1  
-//从表尾开始删除两个a  
+
+* 从表尾开始删除两个a  
+
   lrem mylist -2 a  
-//从左侧删除  
+
+* 从左侧删除  
+
   lpop mylist  
-//从右侧删除  
+
+* 从右侧删除  
+
   rpop mylist  
 
 ### 集合类型(Set)  
@@ -208,21 +241,36 @@ redis的set是string类型的无序集合，不能出现重复的数据
 
 #### 具体操作  
 
-//向members集合里添加成员  
+* 向members集合里添加成员  
+
   sadd members fanfan jimin jin fanfan  
-//计算集合成员数量  
+
+* 计算集合成员数量  
+
   scard members  
-//求两集合差集并存储在members2  
+
+* 求两集合差集并存储在members2  
+
   sdiffstore members2 members members1  
-//返回members2集合中所有成员  
+
+* 返回members2集合中所有成员  
+
   smembers members2  
-//求两集合交集并存储在members3  
+
+* 求两集合交集并存储在members3  
+
   sinterstore members3 members members1  
-//将jimin从members2移动到members3  
+
+* 将jimin从members2移动到members3  
+
   smove members2 members3 jimin  
-//移除members3集合中随机的一个元素并返回  
+
+* 移除members3集合中随机的一个元素并返回  
+
   spop members3  
-//移除集合中固定的元素  
+
+* 移除集合中固定的元素  
+
   srem members3 jimin  
 
 ### 有序集合类型(Sorted Set/Zset)  
@@ -231,21 +279,36 @@ Zset和Set一样也是string类型元素的集合，且不允许重复的成员�
 
 #### 具体操作  
 
-//向有序集合class中添加多个成员  
+* 向有序集合class中添加多个成员  
+
   zadd class 90 fanfan 100 jimin 35 jk 72 taetae  
-//计算集合成员数量  
+
+* 计算集合成员数量  
+
   zcard class  
-//计算指定分数区间成员数量  
+
+* 计算指定分数区间成员数量  
+
   zcount class 0 100  
-//对指定成员的分数加上增量  
+
+* 对指定成员的分数加上增量  
+
   zincrby class 20 jk  
-//覆盖指定成员分数  
+
+* 覆盖指定成员分数  
+
   zadd class 89 jk  
-//按分数递增排列  
+
+* 按分数递增排列  
+
   zrange class 0 -1 withscores  
-//按分数递减排列  
+
+* 按分数递减排列  
+
   zrevrange class 0 -1 withscore  
-//删除指定成员  
+
+* 删除指定成员  
+
   zrem class jk  
 
 
@@ -268,17 +331,17 @@ Zset和Set一样也是string类型元素的集合，且不允许重复的成员�
 
 
 
-//从Docker仓库中拉取redis最新镜像  
+从Docker仓库中拉取redis最新镜像  
   docker pull mongo：latest    
-//查看是否拉取成功  
+查看是否拉取成功  
   docker images  
-//运行mongo容器(--auth:需要密码才能访问容器服务)  
+运行mongo容器(--auth:需要密码才能访问容器服务)  
   docker run -itd --name mongo -p 27017:27017 mongo --auth   
-//查看是否安装成功  
+查看是否安装成功  
   docker ps  
-//连接mongodb的admin数据库  
+连接mongodb的admin数据库  
   $docker exec -it mongo mongo admin  
-//创建用户名和密码  
+创建用户名和密码  
   >db.createUser({user:'fanfan0217',pwd:'zhoufan19970217',roles:[{role:'userAdminAnyDatabase',db:'admin'}]});  
   >// 使用上面创建的用户信息进行登录  
   >db.auth('fanfan0217','zhoufan19970217') 
@@ -385,14 +448,14 @@ JanusGraph是一个可扩展的图形数据库，已优化用于存储和查询�
 
 提前在Windows系统下安装了Janusgraph  
 
-//打开虚拟机的终端，安装桌面版的虚拟工具条，以支持Windows和Ubuntu之间的拖放    
+打开虚拟机的终端，安装桌面版的虚拟工具条，以支持Windows和Ubuntu之间的拖放    
   直接复制粘贴，然后解压      
-//把janusgraph文件剪切到home文件夹下，因为自己用cd命令行进不去桌面，所以选择移动文件   
-//进入home文件夹   
+把janusgraph文件剪切到home文件夹下，因为自己用cd命令行进不去桌面，所以选择移动文件   
+进入home文件夹   
   cd /home  
-//进入janusgraph文件，其中fanfan0217为自己的虚拟机名字  
+进入janusgraph文件，其中fanfan0217为自己的虚拟机名字  
   cd ./fanfan0217/janusgraph-full-0.5.2   
-//运行Gremlin控制台，并通过控制台访问    
+运行Gremlin控制台，并通过控制台访问    
   bin/gremlin.sh  
 
 
@@ -402,68 +465,91 @@ JanusGraph是一个可扩展的图形数据库，已优化用于存储和查询�
 
 ###加载众神图，选择conf/janusgraph-inmemory.properties快速打开一个内存后端(方法借鉴) 
 
-//加载所有边，顶点，属性等  
+* 加载所有边，顶点，属性等  
+
 gremlin> graph=JanusGraphFactory.open('conf/janusgraph-inmemory.properties')  
 ==>standardjanusgraph[inmemory；[127.0.0.1]]  
 gremlin> GraphOfTheGodsFactory.localWithoutMixedIndex(graph,ture)  
 ==>null  
-//遍历数据  
+
+* 遍历数据  
+
 gremlin> g=graph.traversal()  
 ==>graphtraversalsource[standardjanusgraph[inmemory:[127.0.0.1]],standard]  
 
 在图形数据库中访问数据的典型模式是首先使用图形索引将入口点定位到图形中，该入口点是一个元素(或元素集),即一个顶点或边
 
-//获取节点名字为saturn的位置  
+* 获取节点名字为saturn的位置  
+
 gremlin> saturn=g.V().has('name','saturn').next()  
 ==>v[4160]  
-//获取saturn的信息  
+
+* 获取saturn的信息  
+
 gremlin> g.V(saturn).valueMap()  
 ==>[name:[saturn],age:[10000]]  
-//查看saturn的孙子为hercules  
+
+* 查看saturn的孙子为hercules  
+
 gremlin> g.V(saturn).in('father').in('father').values('name')  
 ==>hercules  
 
 属性place是边缘属性。可以通过该属性了解雅典50公里内发生的所有事情
 
-//查找Athens方圆50公里发生的事件  
+* 查找Athens方圆50公里发生的事件  
+
 gremlin> g.E().has('place',geoWithin(Geoshape.circle(37.97,23.72,50)))
 ==>e[4qw-6dc-7x1-374][8256-battled->4144]
 ==>e[4co-6dc-7x1-6gg][8256-battled->8368]
 
 在上面的命令中，知道了saturn的孙子是hercules,现在通过saturn来了解hercules  
 
-//得到hercules顶点  
+* 得到hercules顶点  
+
 gremlin> hercules=g.V(saturn).repeat(__.in('father')).times(2).next()  
 ==>v[8256]  
-//得到hercules父母的顶点  
+
+* 得到hercules父母的顶点  
+
 gremlin> g.V(hercules).out('father','mother')  
 ==>v[4272]  
 ==>v[4216]  
-//得到父母的名字  
+
+* 得到父母的名字  
+
 gremlin> g.V(hercules).out('father','mother').values('name')  
 ==>jupiter  
 ==>alcmene  
-//得到父母的身份信息  
+
+* 得到父母的身份信息  
+
 gremlin> g.V(hercules).out('father','mother').label()  
 ==>god  
 ==>human  
-//得到hercules的身份信息  
+
+* 得到hercules的身份信息  
+
 gremlin> hercules.label()  
 ==>demigod  
 
 上述的例子都是关于神殿中各个角色的遗传系。通过众神图得知hercules参与了附近的两次战斗，现在通过battled从hercules顶点移除边来探索这些事情  
 
-//得到与hercules战斗的顶点  
+* 得到与hercules战斗的顶点  
+
 gremlin> g.V(hercules).out('battled')  
 ==>v[4144]  
 ==>v[8368]  
 ==>v[12368]  
-//得到上述顶点的相关信息
+
+* 得到上述顶点的相关信息
+
 gremlin> g.V(hercules).out('battled').valueMap()  
 ==>[name:[nemean]]  
 ==>[name:[hydra]]  
 ==>[name:[cerberus]]  
-//得到hydra和cerberus字段  
+
+* 得到hydra和cerberus字段  
+
 gremlin> g.V(hercules).outE('battled').has('time',gt(1)).inV().values('name')  
 ==>cerberus  
 ==>hydra  
@@ -475,34 +561,45 @@ gremlin> g.V(hercules).outE('battled').has('time',gt(1)).inV().values('name')
 
 塔塔鲁斯的同居者  
 
-//获取节点名字为pluto顶点的位置   
+* 获取节点名字为pluto顶点的位置   
+
 gremlin> pluto=g.V().has('name','pluto').next()    
 ==>v[8200]  
-//得到pluto的同居者  
+
+* 得到pluto的同居者  
+
 gremlin> g.V(pluto).out('lives').in('lives').values('name')  
 ==>pluto  
 ==>cerberus  
-//pluto不是自己的同居者，通过下面语句得到正确的同居者  
+
+* pluto不是自己的同居者，通过下面语句得到正确的同居者  
+
 gremlin> g.V(pluto).out('lives').in('lives').where(is(neq(pluto))).values('name')  
 ==>cerberus   
 
 查找pluto的兄弟
 
-//查找pluto的兄弟生活在哪  
+* 查找pluto的兄弟生活在哪  
+
 gremlin> g.V(pluto).out('brother').out('lives').values('name')  
 ==>sky  
 ==>sea  
-//查看每个兄弟住在哪个地方  
+
+* 查看每个兄弟住在哪个地方  
+
 gremlin> g.V(pluto).out('brother').as('god').out('lives').as('place').select('god','place')  
 ==>[god:v[4272],place:v[4176]]  
 ==>[god:v[8272],place:v[4104]]   
-//查看每个兄弟的名字和住址  
+
+* 查看每个兄弟的名字和住址  
+
 gremlin> g.V(pluto).out('brother').as('god').out('lives').as('place').select('god','place').by('name')  
 ==>[god:jupiter,place:sky]    
 ==>[god:neptune,place:sea]  
 
 pluto住在塔塔鲁斯，因为他不关心死亡，现在查询这些兄弟选择住址的原因  
 
-//pluto选择住址的原因  
+* pluto选择住址的原因  
+
 gremlin> g.V(pluto).outE('lives').values('reason')  
 ==>no fear of death  
