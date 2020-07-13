@@ -16,14 +16,12 @@
     
  1.  mysql新增root用户
 
-    百度说可以直接使用`mysql -u root -p`回车进入mysql,但是我尝试了是不行的。
 
-    ```bash
-    mysql_secure_installation
+     ```bash
+     mysql_secure_installation
     ```
-
+    百度说可以直接使用`mysql -u root -p`回车进入mysql,但是我尝试了是不行的。
     使用以上命令为root用户更改密码
-
     修改后输入密码成功进入mysql
 
     ![mysql进入成功](https://i.loli.net/2020/07/07/Rk8XjlEYospZzDw.png)
