@@ -24,7 +24,7 @@
 
     使用以上命令为root用户更改密码
 
-    ```
+    ```bash
     Securing the MySQL server deployment.
     
     Enter password for user root: 
@@ -79,7 +79,6 @@
     Success.
     
     All done! 
-        
     ```
 
     修改后输入密码成功进入mysql
