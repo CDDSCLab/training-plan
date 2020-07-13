@@ -247,7 +247,7 @@ MongoDB按照逻辑结构可以分为database、collection和document，这是�
   #pretty()表示格式化输出
   #查询使用的修饰符
   # or
-  $or:[key1:value1,key2:value2]
+  $or:[{key1:value1},{key2:value2}]
   # <
   $lt:value
   # <=
