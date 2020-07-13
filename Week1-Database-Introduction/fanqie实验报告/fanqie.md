@@ -15,12 +15,10 @@
     可以看到安装成功
     
  1.  mysql新增root用户
-
-
-     ```bash
-     mysql_secure_installation
-    ```
     百度说可以直接使用`mysql -u root -p`回车进入mysql,但是我尝试了是不行的。
+        ```
+    mysql_secure_installation
+    ```
     使用以上命令为root用户更改密码
     修改后输入密码成功进入mysql
 
