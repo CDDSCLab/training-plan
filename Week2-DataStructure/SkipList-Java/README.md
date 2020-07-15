@@ -1,5 +1,4 @@
 # SkipList
-[![Build Status](https://travis-ci.org/MottoX/SkipList.svg?branch=master)](https://travis-ci.org/MottoX/SkipList)
 
 A Java implementation of [skip list](https://en.wikipedia.org/wiki/Skip_list).
 
