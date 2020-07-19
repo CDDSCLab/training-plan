@@ -1,13 +1,9 @@
 # skiplist 实验
 
 1. 编码规范请参考：
-<<<<<<< HEAD
-   [google-style-en](https://google.github.io/styleguide/cppguide.html)
-=======
 
    [google-style-en](https://google.github.io/styleguide/cppguide.html)
    
->>>>>>> a6fa6c02f55674f448465d61055b959a43118ad8
    [google-style-cn](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/)
 
 2. 代码格式：google-style
@@ -17,11 +13,7 @@
 
 ## Step1 环境搭建
 
-<<<<<<< HEAD
-环境依赖：cmake3、g++
-=======
 环境依赖：cmake3, g++
->>>>>>> a6fa6c02f55674f448465d61055b959a43118ad8
 
 1. 安装 cmake3 和 g++
 
@@ -32,11 +24,6 @@
 ## Step2 实现
 
 代码在dscl目录下
-<<<<<<< HEAD
-dscl
-├── skiplist.h
-└── skiplist_test.cc
-=======
 
 dscl
 
@@ -44,7 +31,6 @@ dscl
 
 └── skiplist_test.cc
 
->>>>>>> a6fa6c02f55674f448465d61055b959a43118ad8
 具体实现在 skiplist 下，测试代码在 skiplist_test.cc 下
 
 ```c++
