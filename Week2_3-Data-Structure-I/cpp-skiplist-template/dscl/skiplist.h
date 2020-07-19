@@ -3,7 +3,7 @@
 
 #include <cassert>
 #include <cstdlib>
-
+#include <vector>
 #include "util/random.h"
 
 namespace skiplist {
