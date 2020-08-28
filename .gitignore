@@ -197,3 +197,9 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+#gongkai
+Week2_3-Data-Structure-I/gongkai_btree/.idea/
+Week2_3-Data-Structure-I/gongkai_btree/b-tree/cmake-build-debug/
+Week2_3-Data-Structure-I/gongkai_btree/b-tree/*.out
+
