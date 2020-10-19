@@ -1,3 +1,6 @@
 [submodule "Week2_3-Data-Structure-I/cpp-skiplist-template/third_party/googletest"]
 	path = Week2_3-Data-Structure-I/cpp-skiplist-template/third_party/googletest
 	url = git@github.com:google/googletest.git
+[submodule "Week12_13-Distributed-System/mayingchun_MapReduce/6.824"]
+	path = Week12_13-Distributed-System/mayingchun_MapReduce/6.824
+	url = https://github.com/myccccccc/6.824
