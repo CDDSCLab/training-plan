@@ -1,0 +1,68 @@
+@startuml
+SkipList *-- Iterator
+SkipList *-- Node
+SkipList *-- Random
+
+class SkipList{
+-std::unique_ptr<Node> head_;
+// for remove
+-std::map<int,int> heights;
+-Random rnd_;
+-Comparator const compare_;
+-enum { kMaxHeight = 12 };
+
+-struct Node;
++class Iterator;
+
++SkipList(Comparator cmp);
++Insert(const Key& key);
++Remove(const Key& key);
++Contains(const Key& key) const;
++Dump() const;
++GetMaxHeight() const;
+
+-Node* NewNode(const Key& key, int height);
+-int RandomHeight();
+-bool Equal(const Key& a, const Key& b) const;
+-bool KeyIsAfterNode(const Key& key, Node* n) const;
+-Node* FindGreaterOrEqual(const Key& key, Node** prev) const;
+-Node* FindGreaterOrEqualFast(const Key& key, Node** prev) const;
+-Node* FindLessThan(const Key& key) const;
+-Node* FindLast() const;
+}
+
+class Iterator{
+-const SkipList* list_;
+-Node* node_;
+
++explicit Iterator(const SkipList* list);
++bool Valid() const;
++const Key& key() const;
++void Next();
++void Prev();
++void Seek(const Key& target);
++void SeekToFirst();
++void SeekToLast();
+}
+
+class Node{
+- std::<vector<std::shared_ptr<Node>>> next_;
++Key const key;
+
++Node(const Key& k, int height);
++int GetNodeHeight()const;
++std::shared_ptr<Node> Next(int n) ;
++void SetNext(int n, std::shared_ptr<Node> x);
+}
+
+class Random{
+-uint32_t seed_;
+
++explicit Random(uint32_t s);
++uint32_t Next();// get next seed_
++uint32_t Uniform(int n);// Return a value in the range [0..n-1]
++bool OneIn(int n);// 1/n return true
++uint32_t Skewed(int max_log);// return a value range in  [0,2^max_log-1]
+}
+
+@enduml

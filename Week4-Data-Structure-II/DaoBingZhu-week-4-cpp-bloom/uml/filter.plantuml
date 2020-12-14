@@ -1,0 +1,30 @@
+@startuml
+FilterPolicy <|-- BloomFilterPolicyp
+FilterPolicy <|-- CountBloomFilterPolicy
+class FilterPolicy{
+    +virtual void AddKey(const std::string *keys, int n) const = 0;
+    +virtual bool DeleteKey(const std::string &key);
+    +virtual bool KeyMayMatch(const std::string &key) const = 0;
+}
+class BloomFilterPolicy{
+   -size_t bits_per_key_; // m/n
+   -size_t k_;            // hash function nums
+   -size_t bits_;         // total bits
+   -std::string data_;
+
+   +explicit BloomFilterPolicy(int bits_per_key,int key_num);
+   +virtual void AddKey(const std::string *keys, int n) const;
+   +virtual bool KeyMayMatch(const std::string &key) const ;
+}
+class CountBloomFilterPolicy{
+   -size_t buckets_per_key_; // m/n
+   -size_t k_;               // hash function nums
+   -size_t bytes_;           // total bytes
+   -std::string data_;
+
+   +explicit BloomFilterPolicy(int bits_per_key,int key_num);
+   +virtual void AddKey(const std::string *keys, int n) const;
+   +virtual bool KeyMayMatch(const std::string &key) const ;
+   +virtual bool DeleteKey(const std::string &key);
+}
+@enduml

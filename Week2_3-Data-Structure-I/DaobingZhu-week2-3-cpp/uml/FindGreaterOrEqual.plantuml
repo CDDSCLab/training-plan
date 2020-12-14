@@ -1,0 +1,19 @@
+@startuml
+start
+:x=头节点;
+:获取当前最大Level;
+repeat:next=x->Next();
+if(符合前推条件？) then (yes)
+    :x=next;
+else(no)
+    if(prev != nullprt?) then(yes)
+        :记录当前节点的每一层上一个节点到prev数组;
+    endif
+        if(level==0?) then(yes)
+            :return next;
+            stop
+        else(no)
+            :level--;
+        endif
+endif
+@enduml

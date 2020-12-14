@@ -1,0 +1,50 @@
+@startuml
+SortedSingleLinkedList *-- Iterator
+SortedSingleLinkedList *-- Node
+class SortedSingleLinkedList{
+-Node* head_;
+-Comparator const compare_;
+
+-struct Node;
++class Iterator;
+
++SortedSingleLinkedList(Comparator cmp);
++~SortedSingleLinkedList(Comparator cmp);
++Insert(const Key& key);
++Remove(const Key& key);
++Contains(const Key& key) const;
++Dump() const;
+*--
+-Node* NewNode(const Key& key, int height);
+-bool Equal(const Key& a, const Key& b) const;
+-bool KeyIsAfterNode(const Key& key, Node* n) const;
+-Node* FindGreaterOrEqual(const Key& key, Node** prev) const;
+-Node* FindLessThan(const Key& key) const;
+-Node* FindLast() const;
+}
+
+class Iterator{
+-const SortedSingleLinkedList* list_;
+-Node* node_;
+
++explicit Iterator(const SkipList* list);
++bool Valid() const;
++const Key& key() const;
++void Next();
++void Prev();
++void Seek(const Key& target);
++void SeekToFirst();
++void SeekToLast();
+}
+class Node{
+-Key const key;
+- Node* next_;
+
++Node(const Key& k);
++~Node();
++int GetNodeHeight()const;
++Node* Next(int n) ;
++const Key& GetKey();
++void SetNext(int n, std::shared_ptr<Node> x);
+}
+@enduml

@@ -1,6 +1,12 @@
 [submodule "Week2_3-Data-Structure-I/cpp-skiplist-template/third_party/googletest"]
 	path = Week2_3-Data-Structure-I/cpp-skiplist-template/third_party/googletest
 	url = git@github.com:google/googletest.git
+[submodule "Week8_9-SQL-Optimizer/DaoBingZhu-week-8-9-cpp-Merge-Sort/talent-plan-mergesort"]
+	path = Week8_9-SQL-Optimizer/DaoBingZhu-week-8-9-cpp-Merge-Sort/talent-plan-mergesort
+	url = https://github.com/IcePigZDB/talent-plan.git
+[submodule "Week10_11-Executor/DaoBingZhu-Week10_11-Executor/talent-plan-join"]
+	path = Week10_11-Executor/DaoBingZhu-Week10_11-Executor/talent-plan-join
+	url = https://github.com/IcePigZDB/talent-plan.git
 [submodule "Week12_13-Distributed-System/mayingchun_MapReduce/6.824"]
 	path = Week12_13-Distributed-System/mayingchun_MapReduce/6.824
 	url = https://github.com/myccccccc/6.824
