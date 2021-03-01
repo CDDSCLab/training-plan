@@ -16,7 +16,9 @@
 2. 软件工程能力（代码规范、协作开发、UML 的使用、代码测试、文档撰写）
 3. Research、Presentation 能力
 
-时间安排表：
+**时间安排表：**
+
+- 第一学期
 
 | Week | Point | Detail | Project | Further Reading |
 | :--: | :--: | -- | -- | -- |
@@ -31,8 +33,18 @@
 | 14 | 一致性协议 | [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science)) <br/> [Raft](https://raft.github.io/) <br/> [Zab](https://marcoserafini.github.io/papers/zab.pdf) <br/> [Gossip](https://flopezluis.github.io/gossip-simulator/) <br/> | 实现 Raft 算法，参考 [MIT6.824](https://pdos.csail.mit.edu/6.824/) 课程  | Quorum <br/> Multi-Raft </br> Parallel-Raft |
 | 15 | 分布式数据库 | 阅读 [BigTable](https://research.google.com/archive/bigtable-osdi06.pdf), [DynamoDB](https://www.dynamodbguide.com/), [TiDB](https://pingcap.com/blog/vldb-2020-tidb-a-raft-based-htap-database/) 等论文，了解它们的设计 | | |
 
-
 说明：整个学习流程的作业和文档需要在实验室 Github 仓库里面提交，每个 Project 会事先建立好框架，每个同学按照框架进行代码和文档的撰写。并且在代码过程中抽象公共代码库方便后续同学的使用，且需做好 todo-list，方便功能的完善。
+
+- 第二学期
+
+  承接上学期理论学习，下学期的新生培养以动手实践为主。选取TiDB Talent Plan中TinyKV项目，目标是实现一个可扩展、高可用、支持分布式事务的KV数据库。其中涉及到上学期1-6、12-15周所学习的知识，使用golang进行开发。[项目地址](https://github.com/tidb-incubator/tinykv)
+
+| Week  |                   Detail                   |                           Project                            |
+| :---: | :----------------------------------------: | :----------------------------------------------------------: |
+|  1-2  |    golang学习 <br/>单机key-value server    | [Project1 StandaloneKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project1-StandaloneKV.md) |
+|  3-6  |    基于raft实现高可用的key-value server    | [Project2 RaftKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project2-RaftKV.md) |
+|  7-9  | 基于multi-raft实现可扩展的key-value server | [Project3 MultiRaftKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project3-MultiRaftKV.md) |
+| 10-13 |        基于Percolator实现分布式事务        | [Project 4 Transactions](https://github.com/tidb-incubator/tinykv/blob/course/doc/project4-Transaction.md) |
 
 
 ## 如何提交作业
