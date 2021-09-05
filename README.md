@@ -22,30 +22,31 @@
 
 | Week | Point | Detail | Project | Further Reading |
 | :--: | :--: | -- | -- | -- |
-| [1](./Week1-Database-Introduction) | 数据库分类及内部组件功能 | 学习关系型、文档型、KV 型、图数据库等不同类别等数据库，了解其中架构及功能模块 | 安装相关类别的数据库并简单使用（可以使用 [Docker](https://www.docker.com/) 等工具，分组完成） | |
-| 2, 3 | 数据结构 1 | [B-Tree](https://en.wikipedia.org/wiki/B-tree) <br/> [B+ Tree](https://en.wikipedia.org/wiki/B%2B_tree) <br/> [Skip List](https://en.wikipedia.org/wiki/Skip_list) <br/> [LSM Tree](https://en.wikipedia.org/wiki/Log-structured_merge-tree) | 选取一个数据结构并实现。使用 UML 建模完成功能和测试（代码符合统一规范，具有完备的测试用例）最后形成文档。（后续的 Project 同样的要求） | [Mass-Tree](https://pdos.csail.mit.edu/papers/masstree:eurosys12.pdf) <br/> [Bw-Tree](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bw-tree-icde2013-final.pdf) <br/> [Bz-Tree](http://www.vldb.org/pvldb/vol11/p553-arulraj.pdf) |
-| 4 | 数据结构 2 | [Bloom Filter](https://llimllib.github.io/bloomfilter-tutorial/) <br/> [Cuckoo Filter](https://en.wikipedia.org/wiki/Cuckoo_filter) <br/> [Consistent Hash](https://en.wikipedia.org/wiki/Consistent_hashing) <br/> [Chord](https://en.wikipedia.org/wiki/Chord_(peer-to-peer)) | 实现两种过滤器，并进行性能测试 |  |
-| 5, 6 | 数据库关键技术 | 事务及 ACID <br/> 并发控制（乐观、悲观）<br/> MVCC <br/> 数据持久化和故障恢复（日志、检查点、快照） | 选一个数据结构实现并发读写，保证数据一致性 |  |
-| 7 | SQL Engine & Parser | 了解 SQL Engine 组件及功能，学习 SQL 解析流程及抽象语法树  | 使用 Yacc 现有开源库实现简单的 SQL 解析（选修） |  |
-| 8, 9 | SQL Optimizer  | 学习常见优化器架构，学习查询优化具体流程 | 实现一个并发的 Merge Sort 算法，并完成性能调优 |  |
-| 10, 11 | Executor | 学习执行算子，如 Join, Agg, Scan 的不同实现，了解 Volcano 及 Vectorized 执行器架构 | 实现 Hash Join 算子并完成性能调优 |  |
-| 12, 13 | 分布式基础 | 分布式相关概念、时钟 <br/> CAP、BASE <br/> 分布式事务（2PC / 3PC) <br/> RPC <br/> MapRudece | 阅读 [MapReduce]((https://research.google.com/archive/mapreduce-osdi04.pdf)) 论文，并结合相关框架实现一个单词统计程序。参考 [MIT6.824](https://pdos.csail.mit.edu/6.824/) 课程、[Spark](https://en.wikipedia.org/wiki/Apache_Spark) | [Percolator](http://notes.stephenholiday.com/Percolator.pdf) <br/> [LCN](https://github.com/codingapi/tx-lcn) <br/> [Seata](http://seata.io/en-us/) <br/> |
-| 14 | 一致性协议 | [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science)) <br/> [Raft](https://raft.github.io/) <br/> [Zab](https://marcoserafini.github.io/papers/zab.pdf) <br/> [Gossip](https://flopezluis.github.io/gossip-simulator/) <br/> | 实现 Raft 算法，参考 [MIT6.824](https://pdos.csail.mit.edu/6.824/) 课程  | Quorum <br/> Multi-Raft </br> Parallel-Raft |
-| 15 | 分布式数据库 | 阅读 [BigTable](https://research.google.com/archive/bigtable-osdi06.pdf), [DynamoDB](https://www.dynamodbguide.com/), [TiDB](https://pingcap.com/blog/vldb-2020-tidb-a-raft-based-htap-database/) 等论文，了解它们的设计 | | |
+| [1](./Week1-Database-Introduction) | 数据库分类及内部组件功能 | 数据库与文件系统的区别，数据库产生的原因；学习关系型、文档型、KV 型、图数据库等不同类别等数据库，了解其中架构及功能模块，理解不同数据库的应用场景。<br /> 学习使用git进行协作开发 | 1. 安装相关类别的数据库并简单使用（可以使用 [Docker](https://www.docker.com/) 等工具） <br/>2. 以3人小组为单位整理相关文档，并进行分享。（使用markdown格式撰写文档，并上传至github） | |
+| 2 | 数据结构 1 | 熟悉开发流程与规范<br />[Bloom Filter](https://llimllib.github.io/bloomfilter-tutorial/) <br/> [Cuckoo Filter](https://en.wikipedia.org/wiki/Cuckoo_filter) <br/> [Consistent Hash](https://en.wikipedia.org/wiki/Consistent_hashing) <br/> [Chord](https://en.wikipedia.org/wiki/Chord_(peer-to-peer)) | 实现两种过滤器：要求具有单元测试，与性能测试。<br />使用 UML 建模完成功能和测试（代码符合统一规范，具有完备的测试用例）最后形成文档。（后续的 Project 同样的要求） |  |
+| 3 | 关系型数据库 1 | 学习关系型数据库的基本概念：关系模型，SQL语句，索引，buffer pool，事务，存储等，学习各个模块在关系型数据库中所处位置 | 以3人小组为单位，对关系型数据库各个部分进行分析，并撰写相关文档 <br /> |  |
+| 4-5 | 关系型数据库 1 | 以个人为单位，实现一个buffer pool，并测试其性能及内存占用。并撰写相关文档 | [项目地址](https://15445.courses.cs.cmu.edu/fall2020/project1/) | |
+| 6-7 | 数据结构 2 | [B-Tree](https://en.wikipedia.org/wiki/B-tree)<br/>[B+ Tree](https://en.wikipedia.org/wiki/B%2B_tree)<br/> | 在buffer pool的基础上，实现一个B+树，需包含单元测试及测试性能。[项目地址](https://15445.courses.cs.cmu.edu/fall2020/project2/) | [Mass-Tree](https://pdos.csail.mit.edu/papers/masstree:eurosys12.pdf) <br/>[Bw-Tree](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bw-tree-icde2013-final.pdf) <br/> [Bz-Tree](http://www.vldb.org/pvldb/vol11/p553-arulraj.pdf) |
+| 8-9 | 数据结构 3 | [Skip List](https://en.wikipedia.org/wiki/Skip_list)、[LSM Tree](https://en.wikipedia.org/wiki/Log-structured_merge-tree) 分析其在LevelDB中的实现方式<br /> 分析B+树与LSM Tree的特点及应用场景。 | 继续完成B+树项目<br />对leveldb中跳表与lsm tree的实现方式进行分析，以3人为单位撰写leveldb代码分析文档 |  |
+| 10-12 | SQL Engine & Parser & Executor | 了解 SQL Engine 组件及功能，学习 SQL 解析流程及抽象语法树。学习执行算子，如 Join, Agg, Scan 的不同实现。了解基本的查询优化方法，了解 Volcano 及 Vectorized 执行器架构 | 撰写相关文档<br />实现数据库的执行器。[项目地址](https://15445.courses.cs.cmu.edu/fall2020/project3/) |  |
+| 13-15 |           数据库事务           | 理解事务的概念及产生原因、理解ACID特性<br/>并发控制（乐观、悲观）<br/>数据持久化和故障恢复（日志、检查点、快照） | 撰写相关文档<br />基于锁实现数据库的并发控制，要求保证事务的ACID特性 [项目地址](https://15445.courses.cs.cmu.edu/fall2020/project4/) | [Percolator](http://notes.stephenholiday.com/Percolator.pdf) <br/> |
+|               16               |         分布式基础 议          | 分布式相关概念、时钟 <br/> CAP、BASE <br/> 拜占庭问题 <br /> [Zab](https://marcoserafini.github.io/papers/zab.pdf) <br/> [Gossip](https://flopezluis.github.io/gossip-simulator/) <br/> | 实现单机的kv server [Project1 StandaloneKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project1-StandaloneKV.md) | [LCN](https://github.com/codingapi/tx-lcn) <br/> [Seata](http://seata.io/en-us/) <br/> Quorum |
+| 17-20 | 分布式基础 议 | [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science)) <br/> [Raft](https://raft.github.io/) <br/> RPC | 基于raft实现高可用的key-value server <br />[Project2 RaftKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project2-RaftKV.md) | Multi-Raft <br /> Parallel-Raft |
 
 说明：整个学习流程的作业和文档需要在实验室 Github 仓库里面提交，每个 Project 会事先建立好框架，每个同学按照框架进行代码和文档的撰写。并且在代码过程中抽象公共代码库方便后续同学的使用，且需做好 todo-list，方便功能的完善。
 
 - 第二学期
 
-  承接上学期理论学习，下学期的新生培养以动手实践为主。选取TiDB Talent Plan中TinyKV项目，目标是实现一个可扩展、高可用、支持分布式事务的KV数据库。其中涉及到上学期1-6、12-15周所学习的知识，使用golang进行开发。[项目地址](https://github.com/tidb-incubator/tinykv)
+  承接上学期理论学习，下学期的新生培养以动手实践为主。项目1选取TiDB Talent Plan中TinyKV项目，目标是实现一个可扩展、高可用、支持分布式事务的KV数据库，使用golang进行开发[项目地址](https://github.com/tidb-incubator/tinykv)。项目2选取TiDB Talent Plan中的TinySQL项目。
 
 
-| Week  |                   Detail                   |                           Project                            |
-| :---: | :----------------------------------------: | :----------------------------------------------------------: |
-|  1-2  |    golang学习 <br/>单机key-value server    | [Project1 StandaloneKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project1-StandaloneKV.md) |
-|  3-6  |    基于raft实现高可用的key-value server    | [Project2 RaftKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project2-RaftKV.md) |
-|  7-9  | 基于multi-raft实现可扩展的key-value server | [Project3 MultiRaftKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project3-MultiRaftKV.md) |
-| 10-13 |        基于Percolator实现分布式事务        | [Project 4 Transactions](https://github.com/tidb-incubator/tinykv/blob/course/doc/project4-Transaction.md) |
+| Week  | Point      |                            Detail                            |                           Project                            | Further Reading                                              |
+| :---: | ---------- | :----------------------------------------------------------: | :----------------------------------------------------------: | ------------------------------------------------------------ |
+|  1-3  | raft进阶   |          基于multi-raft实现可扩展的key-value server          | [Project3 MultiRaftKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project3-MultiRaftKV.md) |                                                              |
+|  2-5  | 分布式事务 | 分布式事务（2PC / 3PC) <br />基于Percolator实现分布式事务，分析Percolaor的优缺点 | [Project 4 Transactions](https://github.com/tidb-incubator/tinykv/blob/course/doc/project4-Transaction.md) | [Percolator](http://notes.stephenholiday.com/Percolator.pdf) <br/> |
+|  6-9  |            |                         TinySQL项目                          |                                                              |                                                              |
+| 10-13 |            |                         TinySQL项目                          |                                                              |                                                              |
+| 14-16 |            |                         TinySQL项目                          |                                                              |                                                              |
 
 
 ## 如何提交作业
