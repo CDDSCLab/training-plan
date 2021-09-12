@@ -97,7 +97,7 @@ gremlin>
 
 Gremlin Console 本身可以执行一些简单的运算：
 
-![image-20210912225350181](C:\Users\11251\AppData\Roaming\Typora\typora-user-images\image-20210912225350181.png)
+![image-20210912225350181](images/image-20210912225350181.png)
 
 [JanusGraph基础使用教程](https://docs.janusgraph.org/getting-started/basic-usage/)
 
@@ -105,11 +105,11 @@ Gremlin Console 本身可以执行一些简单的运算：
 
 #### 原版：
 
-<img src="https://docs.janusgraph.org/getting-started/graph-of-the-gods-2.png" alt="Graph of the Gods" style="zoom:67%;" />
+![1](images/1.png)
 
 #### 中文版：
 
-<img src="https://img-blog.csdn.net/20180103190001009" alt="img" style="zoom:67%;" />
+![2](images/2.png)
 
 | 标示           | 含义                                       |
 | -------------- | ------------------------------------------ |
@@ -275,21 +275,21 @@ cd ../conf/gremlin-server/
 vi gremlin-server.yaml
 ```
 
-![image-20210912233126742](C:\Users\11251\AppData\Roaming\Typora\typora-user-images\image-20210912233126742.png)
+![](images/image-20210912233126742.png)
 
 ​	从配置文件中可看出里面只包含了一个`janusgraph-inmemory.properties`的配置。回去查看可用的配置文件：
 
-![image-20210912233326356](C:\Users\11251\AppData\Roaming\Typora\typora-user-images\image-20210912233326356.png)
+![](images/image-20210912233326356.png)
 
 ​	可以找到`janusgraph-inmemory.properties`这个配置文件，那就直接用这个即可。
 
-![image-20210912233519375](C:\Users\11251\AppData\Roaming\Typora\typora-user-images\image-20210912233519375.png)
+![](images/image-20210912233519375.png)
 
 ​	可以看到配置文件成功加载了。
 
 ​	事实上，教程里是有提那么一嘴的：
 
-![image-20210912234904997](C:\Users\11251\AppData\Roaming\Typora\typora-user-images\image-20210912234904997.png)
+![](images/image-20210912234904997.png)
 
 2. 在加载图对象时，若直接使用：
 
@@ -316,5 +316,5 @@ gremlin> GraphOfTheGodsFactory.loadWithoutMixedIndex(graph, true)
 
 ​	进一步学习[Gremlin使用方法](https://docs.janusgraph.org/getting-started/gremlin/)
 
-![image-20210912233819724](C:\Users\11251\AppData\Roaming\Typora\typora-user-images\image-20210912233819724.png)
+![](images/image-20210912233819724.png)
 
