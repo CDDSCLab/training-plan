@@ -157,6 +157,7 @@
 ```
 
 ### 五、遇到的问题
-* 使用MongoDB官网安装教程在Ubuntu/Debian容器中安装时，在进行到最后一步时，即执行命令`sudo service mongod start`时，返回：`mongod: unrecognized service`，目前还没解决。
+* 使用MongoDB官网安装教程在Ubuntu/Debian容器中安装时，在进行到最后一步时，即执行命令`sudo service mongod start`时，返回：`mongod: unrecognized service`。
+	* 解决方法：启动`/usr/bin/mongod --config /etc/mongod.conf`，停止`/usr/bin/mongod --config /etc/mongod.conf --shutdown`
 ### 六、TODO
 * 学习正则.
