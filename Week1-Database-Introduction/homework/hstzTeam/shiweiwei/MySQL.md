@@ -131,4 +131,4 @@ MySQL 在整体架构上分为 Server 层和存储引擎层。
 Server 层，包括连接器、查询缓存、分析器、优化器、执行器等，存储过程、触发器、视图和内置函数都在这层实现。  
 存储引擎层负责数据的存储和提取，如 InnoDB、MyISAM、Memory 等引擎。  
 在客户端连接到 Server 层后，Server 会调用数据引擎提供的接口，进行数据的变更。  
-![MySQL整体架构图](/images/01.png)
+![MySQL整体架构图](images/01.png)
