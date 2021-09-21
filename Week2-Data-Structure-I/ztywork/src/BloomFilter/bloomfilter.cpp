@@ -4,6 +4,7 @@
 BloomFilter::BloomFilter(){
     bittable.reset();
     memset(hash_out, 0, 7*4);
+    elementNum=0;
 }
 
 bool BloomFilter::add(std::string key){
@@ -13,6 +14,7 @@ bool BloomFilter::add(std::string key){
         return false;
     for(uint32_t index:hash_out)
        bittable.set(index%TABLE_SIZE);
+    elementNum++;
     return true; 
 }
 
@@ -36,3 +38,6 @@ bool BloomFilter::contains(std::string key){
     return true;
 }
 
+uint32_t BloomFilter::getElementNum(){
+    return elementNum;
+}

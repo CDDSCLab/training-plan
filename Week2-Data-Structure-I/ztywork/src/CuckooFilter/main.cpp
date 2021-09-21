@@ -1,28 +1,30 @@
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 #include "cuckoofilter.h"
 
 cuckoofilter cuck;
 
 int main()
 {
-    std::string key;
-    std::cout<<"please try insert:"<<std::endl;
-    while(std::cin>>key){
-        if(key=="quit")break;
-        if(cuck.inserts(key)){
-            std::cout<<"add."<<std::endl;
-        }else{
-            std::cout<<"fail."<<std::endl;
-        }
-    }
-    std::cout<<"please try delete:"<<std::endl;
-    while(std::cin>>key){
-        if(key=="quit")break;
-        if(cuck.deletes(key)){
-            std::cout<<"deletes."<<std::endl;
-        }else{
-            std::cout<<"fail."<<std::endl;
-        }
-    }
+    clock_t start, finish;
+    double  duration;
+    start = clock();
 
+    std::fstream ifile("./testString.txt");
+    if(!ifile){
+        std::cerr<<"File open error!"<<std::endl;
+        exit(1);
+    } 
+
+    std::string key;
+    while(ifile>>key)
+        cuck.inserts(key);
+
+    ifile.close();
+    finish = clock();
+    duration = (double)(finish - start) / CLOCKS_PER_SEC;
+    std::cout<<"element num: "<<cuck.getElementNum()<<std::endl;
+    printf( "%f seconds\n", duration );
     return 0;
 }

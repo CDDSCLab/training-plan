@@ -58,7 +58,7 @@ bool cuckoofilter::deletes(std::string key){
 
 
 bool cuckoofilter::inserts(std::string key){
-    if(contains(key)) return false;
+    // if(contains(key)) return false;
     unsigned char fp=fingerprint(key);
     unsigned int p1=position_now(key);
     unsigned int p2=position_dual(p1,fp);
