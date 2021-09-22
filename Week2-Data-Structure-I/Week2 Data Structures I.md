@@ -256,7 +256,7 @@ PASS
 ok      data-structure/bloom-filter     2.821s
 ```
 
-	### 优缺点
+### 优缺点
 
 布隆过滤器的特点是允许小部分的假阳率，且具有非常好的空间效率。
 
@@ -270,7 +270,9 @@ ok      data-structure/bloom-filter     2.821s
 
 ## *Cuckoo Filter | 布谷鸟过滤器*
 
+布谷鸟过滤器的提出旨在改进布隆过滤器。
 
+![image-20210922110905915](./image/image-20210922110905915.png)
 
 相比于布隆过滤器，布谷鸟过滤器的主要**优点**如下：
 
