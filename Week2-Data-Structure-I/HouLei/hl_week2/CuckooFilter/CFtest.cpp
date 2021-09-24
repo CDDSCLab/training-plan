@@ -6,6 +6,7 @@
 #include <vector>
 #include "MurMurHash.h"
 #include "MurMurHash.cpp"
+#include <time.h>
 
 using namespace std;
 
@@ -36,15 +37,22 @@ vector<string> Rd_generate_string(uint32_t num)
 
 int main()
 {
+    clock_t start, finish;
+    double duration;
     CuckooFilter cuckoofilter(4096);
-    vector<string> rdstring = Rd_generate_string(10);
+    vector<string> rdstring = Rd_generate_string(1000);
+    float count = 0;
+    start = clock();
     for(int i = 0 ;i<rdstring.size();i++)
     {
-        cuckoofilter.Add(rdstring[i]);
+        if(!cuckoofilter.Add(rdstring[i]))
+        {
+            count+=1;
+        }
     }
-    cuckoofilter.Lookup("vou");
-    cuckoofilter.Lookup("houlei");
-    cuckoofilter.Delete("vou");
-    cuckoofilter.Lookup("vou");
+    finish = clock();
+    duration = (double)(finish - start) / CLOCKS_PER_SEC;
+    cout<<"误报率:"<<float(count/1000)<<endl;
+    cout<<"耗时:"<<duration<<"s"<<endl;
     return 0;
 }
