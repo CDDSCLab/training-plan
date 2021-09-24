@@ -36,10 +36,13 @@ vector<string> Rd_generate_string(uint32_t num)
 
 int main()
 {
-    BloomFilter bloomfilter(100,20000);
+    clock_t start, finish;
+    double duration;    
+    BloomFilter bloomfilter(1000,4000);
     vector<string> rdstring = Rd_generate_string(1000);
     int i=0;
     float count=0,p_rate;
+    start = clock();
     for(;i<rdstring.size();i++)
     {
         if(bloomfilter.Lookup(rdstring[i]))
@@ -47,8 +50,11 @@ int main()
             count=count+1;
         }else bloomfilter.Add(rdstring[i]);
     }
+    finish = clock();
+    duration = (double)(finish - start) / CLOCKS_PER_SEC;
     p_rate=count/rdstring.size();
-    cout<<"误报率:"<<p_rate;
+    cout<<"误报率:"<<p_rate<<endl;
+    cout<<"耗时:"<<duration<<"s"<<endl;
     return 0;
 }
 

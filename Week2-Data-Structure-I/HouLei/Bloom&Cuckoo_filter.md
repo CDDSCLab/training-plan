@@ -27,7 +27,9 @@ Hash.h
 - rotl32(uint32_t x, int8_t r);
 ```
 
-测试：随机生成了1000个str，使用了4000大小的位数组进行实验，误报率0.054（继续扩大位数组容量误报率会下降）；
+测试：随机生成了1000个str，使用了4000大小的位数组进行实验，误报率0.054（继续扩大位数组容量误报率会下降）,耗时0.94s；
+
+![image-20210924110007484](images/Bloom&Cuckoo_filter/image-20210924110007484.png)
 
 ### 三、遇到的问题&TODO
 
@@ -47,7 +49,7 @@ Cuckoo Filter本身的思想来自于布谷散列，一个布谷散列通常有�
 
 ### 二、实现
 
-实现的是一个bucket的Cuckoo Filter ，可以优化的思路是增加bucket的数量，和一个位置存放多个指纹（？）
+实现的是一个bucket的Cuckoo Filter ，可以优化的思路是增加bucket的数量（？），和一个位置存放多个指纹。
 
 ```
 CuckooFilter.h
@@ -62,8 +64,13 @@ Hash.h
 - rotl32(uint32_t x, int8_t r);
 ```
 
+测试: 随机生成1000个str,使用桶大小4096进行测试，误报率0.013,耗时0.63s.
+
+![image-20210924105832270](images/Bloom&Cuckoo_filter/image-20210924105832270.png)
+
 ### 三、遇到的问题&TODO
 
 1、在输入 str 后得到 hash1 ，取余得到 idx1 ，然后保存 hash1 的后几位作为fingerprint。需要用 fingerprint 和 idx1得到idx2 ，在对 hash2 = hash(fingerprint)^idx1 取余时没想明白为什么这样做是对的。（后来搞懂了是bucket的大小只能是2的指数倍，才能保证取余操作是直接对二进制做截断 ， 其余的大小会改变hash后的结果。）
 
 2、两个桶之间可以通过 idx1^p^p=idx1 来实现互相知道对方的位置，增加了多个桶的话怎么实现互相能计算位置（？）
+
