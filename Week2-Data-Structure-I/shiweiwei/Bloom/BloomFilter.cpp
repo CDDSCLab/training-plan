@@ -1,7 +1,7 @@
 #include "BloomFilter.h"
 #define hash_num 8
 
-int bloomfilter::gethash(string& data, int num)
+int bloomfilter::gethash(string& data,const int num)
 {
     int hashresult;
     switch(num)
@@ -9,7 +9,7 @@ int bloomfilter::gethash(string& data, int num)
         case 0:
             hashresult = hash.BKDRHash(data);
             break;
-        case 1:
+        case 1:    
             hashresult = hash.APHash(data);
             break;
         case 2:

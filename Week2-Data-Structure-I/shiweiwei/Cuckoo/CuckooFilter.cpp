@@ -16,7 +16,7 @@ unsigned int cuckoofilter::FingerPrint(string& str)
         hash = hash * seed + str.at(i);
     }
 
-    return(hash % 249997 + 1);
+    return(hash % 100 + 1);
 }
 
 unsigned int cuckoofilter::MurmurHash(string& str)
@@ -54,7 +54,7 @@ bool cuckoofilter::add(string& str) {
     int finger = FingerPrint(str);
     string F = to_string(finger);
     int hash1 = MurmurHash(str);
-    int hash2 = (hash1 ^ MurmurHash(F)) % bucket_num;
+    int hash2 = hash1 ^ MurmurHash(F);
     //有空位置
     for (int i = 0;i < bucket_size;i++) {
         if (bucket[hash1][i] == 0) {
@@ -77,7 +77,7 @@ bool cuckoofilter::add(string& str) {
         bucket[hash][index] = finger;
         //为踢出去的找到新的位置
         string F = to_string(kickedFinger);
-        hash = (hash ^ MurmurHash(F)) % bucket_num;
+        hash = hash ^ MurmurHash(F);
         for (int i = 0;i < bucket_size;i++) {
             if (bucket[hash][i] == 0) {
                 bucket[hash][i] = kickedFinger;
@@ -93,7 +93,7 @@ bool cuckoofilter::isContain(string& str) {
     int finger = FingerPrint(str);
     string F = to_string(finger);
     int hash1 = MurmurHash(str);
-    int hash2 = (hash1 ^ MurmurHash(F)) % bucket_num;
+    int hash2 = hash1 ^ MurmurHash(F);
     for (int i = 0;i < bucket_size;i++) {
         if (bucket[hash1][i] == finger) {
             return true;
@@ -110,7 +110,7 @@ bool cuckoofilter::Delete(string& str) {
     int finger = FingerPrint(str);
     string F = to_string(finger);
     int hash1 = MurmurHash(str);
-    int hash2 = (hash1 ^ MurmurHash(F)) % bucket_num;
+    int hash2 = hash1 ^ MurmurHash(F);
     for (int i = 0;i < bucket_size;i++) {
         if (bucket[hash1][i] == finger) {
             bucket[hash1][i] = 0;

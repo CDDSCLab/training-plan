@@ -4,13 +4,13 @@
 
 #include <string>
 using namespace std;
-#define bucket_num 8629
+#define bucket_num 262144
 #define bucket_size 1
 #define max_kicks 10
 
 class cuckoofilter {
 private:
-    int bucket[bucket_num][bucket_size] = { };
+    unsigned short bucket[bucket_num][bucket_size] = { };
 public:
     cuckoofilter() {};
     unsigned int FingerPrint(string& str);

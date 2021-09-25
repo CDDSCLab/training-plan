@@ -1,5 +1,5 @@
 #include "hash.h"
-#define M 8629
+#define M 249997
 
 using namespace std;
 

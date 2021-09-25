@@ -4,7 +4,7 @@
 #include <bitset>
 #include "hash.h"
 #include <string>
-#define BIT_SIZE  8629
+#define BIT_SIZE  249997
 
 using namespace std;
 
@@ -14,7 +14,7 @@ private:
     Hash hash;
 public:
     bloomfilter(){};
-    int gethash(string& data, int num);
+    int gethash(string& data, const int num);
     void add(string& str);
     bool isContain(string& str);
 };
