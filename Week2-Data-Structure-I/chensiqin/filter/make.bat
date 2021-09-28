@@ -1,0 +1,1 @@
+ g++ hashs.cpp bloom_filter.cpp counting_bloom_filter.cpp cuckoo_filter.cpp main.cpp -o main
