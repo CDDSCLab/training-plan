@@ -151,6 +151,20 @@ UnpinPageImpl()无法通过测试。
 
 ## 4. 王昊龙
 
+### 测试结果
+
+#### lru算法的测试
+
+通过
+
+![](whl_images/lrureplacer.png)
+
+#### buffer_pool_manager的测试
+通过
+
+![](whl_images/bufferpool.png)
+
+
 ### 过程中遇到的问题及解决：
 
 1. 在实现FetchPageImpl与NewPageImpl时，有相同的的取页过程，将其整合为一个函数使得代码更加简洁
@@ -160,3 +174,10 @@ UnpinPageImpl()无法通过测试。
 3. 在实现manager功能时基本都需要判断是否存在该page
 
 4. 在实现FlushPageImpl中还得判断page中是否有物理页（if(page_id == INVALID_PAGE_ID)）
+
+5. 在测试的过程中所遇到的问题，但在执行了
+$ cmake -DCMAKE_BUILD_TYPE=Debug ..
+$ make
+之后测试就成功了
+
+![](whl_images/problem5.jpg)
