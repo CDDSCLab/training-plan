@@ -5,6 +5,8 @@
 by Group2
 陈思芹，郑前祎，侯磊，王昊龙
 
+---
+
 ## 1. 环境搭建
 
 ### 回退版本，从去年的项目建立新分支
@@ -127,7 +129,7 @@ $ make check-clang-tidy
 
 进入课程15-445/645，点击submit提交。
 
-![](./images_csq/submit.png)
+![](./images/submit.png)
 
 只需要包含以下四个文件，目录上必须保证一致:
 
