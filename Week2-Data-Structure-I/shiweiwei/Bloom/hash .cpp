@@ -4,7 +4,7 @@
 using namespace std;
 
 // BKDR Hash Function 
-unsigned int Hash::BKDRHash(string& str)
+unsigned int Hash::BKDRHash(const string& str)
 {
     unsigned int seed=131 ;// 31 131 1313 13131 131313 etc.. 
     unsigned int hash=0 ;
@@ -18,7 +18,7 @@ unsigned int Hash::BKDRHash(string& str)
 }
 
 // AP Hash Function 
-unsigned int Hash::APHash(string& str)
+unsigned int Hash::APHash(const string& str)
 {
     unsigned int hash=0 ;
        
@@ -38,7 +38,7 @@ unsigned int Hash::APHash(string& str)
 }
 
 // RS Hash Function 
-unsigned int Hash::RSHash(string& str)
+unsigned int Hash::RSHash(const string& str)
 {
     unsigned int b=378551 ;
     unsigned int a=63689 ;
@@ -54,7 +54,7 @@ unsigned int Hash::RSHash(string& str)
 }
    
 // JS Hash Function 
-unsigned int Hash::JSHash(string& str)
+unsigned int Hash::JSHash(const string& str)
 {
     unsigned int hash=1315423911 ;
        
@@ -67,7 +67,7 @@ unsigned int Hash::JSHash(string& str)
 }
 
 // SDBM Hash Function 
-unsigned int Hash::SDBMHash(string& str)
+unsigned int Hash::SDBMHash(const string& str)
 {
     unsigned int hash=0 ;
        
@@ -80,7 +80,7 @@ unsigned int Hash::SDBMHash(string& str)
 }
    
 // DJB Hash Function 
-unsigned int Hash::DJBHash(string& str)
+unsigned int Hash::DJBHash(const string& str)
 {
     unsigned int hash=5381 ;
        
@@ -92,7 +92,7 @@ unsigned int Hash::DJBHash(string& str)
     return(hash % M);
 }
 
-unsigned int Hash::DEKHash(string& str) 
+unsigned int Hash::DEKHash(const string& str)
 {
     unsigned int hash = str.length();
     for (int i = 0; i < str.length() ; i++) {
@@ -101,7 +101,7 @@ unsigned int Hash::DEKHash(string& str)
     return (hash % M);
 }
 
-unsigned int Hash::MurmurHash(string& str)
+unsigned int Hash::MurmurHash(const string& str)
 {
     const unsigned int m = 0x5bd1e995;
     const int r = 24;

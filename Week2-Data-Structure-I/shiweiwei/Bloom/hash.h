@@ -6,14 +6,14 @@ using namespace std;
 
 class Hash {
 public:
-    unsigned int BKDRHash(string& str);
-    unsigned int APHash(string& str);
-    unsigned int RSHash(string& str);
-    unsigned int JSHash(string& str);
-    unsigned int SDBMHash(string& str);
-    unsigned int DJBHash(string& str);
-    unsigned int DEKHash(string& str);
-    unsigned int MurmurHash(string& str);
+    static unsigned int BKDRHash(const string& str);
+    static unsigned int APHash(const string& str);
+    static unsigned int RSHash(const string& str);
+    static unsigned int JSHash(const string& str);
+    static unsigned int SDBMHash(const string& str);
+    static unsigned int DJBHash(const string& str);
+    static unsigned int DEKHash(const string& str);
+    static unsigned int MurmurHash(const string& str);
 };
 
 #endif // HASH_H

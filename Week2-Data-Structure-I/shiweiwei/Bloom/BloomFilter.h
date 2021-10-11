@@ -11,7 +11,6 @@ using namespace std;
 class bloomfilter{
 private:
     bitset<BIT_SIZE> bst;
-    Hash hash;
 public:
     bloomfilter(){};
     int gethash(string& data, const int num);

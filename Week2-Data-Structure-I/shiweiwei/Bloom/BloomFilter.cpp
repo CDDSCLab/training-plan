@@ -7,28 +7,28 @@ int bloomfilter::gethash(string& data,const int num)
     switch(num)
     {
         case 0:
-            hashresult = hash.BKDRHash(data);
+            hashresult = Hash::BKDRHash(data);
             break;
         case 1:    
-            hashresult = hash.APHash(data);
+            hashresult = Hash::APHash(data);
             break;
         case 2:
-            hashresult = hash.RSHash(data);
+            hashresult = Hash::RSHash(data);
             break;
         case 3:
-            hashresult = hash.JSHash(data);
+            hashresult = Hash::JSHash(data);
             break;
         case 4:
-            hashresult = hash.SDBMHash(data);
+            hashresult = Hash::SDBMHash(data);
             break;
         case 5:
-            hashresult = hash.DJBHash(data);
+            hashresult = Hash::DJBHash(data);
             break;
         case 6:
-            hashresult = hash.DEKHash(data);
+            hashresult = Hash::DEKHash(data);
             break;
         case 7:
-            hashresult = hash.MurmurHash(data);
+            hashresult = Hash::MurmurHash(data);
     }
     return hashresult;
 }

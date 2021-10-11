@@ -6,7 +6,7 @@
 
 using namespace std;
 
-unsigned int cuckoofilter::FingerPrint(string& str)
+unsigned int cuckoofilter::FingerPrint(const string& str)
 {
     unsigned int seed = 131;// 31 131 1313 13131 131313 etc.. 
     unsigned int hash = 0;
@@ -19,7 +19,7 @@ unsigned int cuckoofilter::FingerPrint(string& str)
     return(hash % 100 + 1);
 }
 
-unsigned int cuckoofilter::MurmurHash(string& str)
+unsigned int cuckoofilter::MurmurHash(const string& str)
 {
     const unsigned int m = 0x5bd1e995;
     const int r = 24;
@@ -50,7 +50,7 @@ unsigned int cuckoofilter::MurmurHash(string& str)
     h ^= h >> 15;
     return (h % bucket_num);
 }
-bool cuckoofilter::add(string& str) {
+bool cuckoofilter::add(const string& str) {
     int finger = FingerPrint(str);
     string F = to_string(finger);
     int hash1 = MurmurHash(str);
@@ -89,7 +89,7 @@ bool cuckoofilter::add(string& str) {
     cout << "过滤器需要进行扩容" << endl;
     return true;
 }
-bool cuckoofilter::isContain(string& str) {
+bool cuckoofilter::isContain(const string& str) {
     int finger = FingerPrint(str);
     string F = to_string(finger);
     int hash1 = MurmurHash(str);
@@ -106,7 +106,7 @@ bool cuckoofilter::isContain(string& str) {
     }
     return false;
 }
-bool cuckoofilter::Delete(string& str) {
+bool cuckoofilter::Delete(const string& str) {
     int finger = FingerPrint(str);
     string F = to_string(finger);
     int hash1 = MurmurHash(str);
