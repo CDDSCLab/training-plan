@@ -60,7 +60,7 @@ frame_id_t BufferPoolManager::FindReplace() {
 }
 
 Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) {
-  std::scoped_lock bpm_slk{latch_};
+  std::lock_guard<std::mutex> lock(latch_);
   // 1.     Search the page table for the requested page (P).
   // 1.1    If P exists, pin it and return it immediately.
   if(page_table_.find(page_id)!=page_table_.end()){
@@ -84,12 +84,11 @@ Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) {
   //page_table_[page_id] = frame_id;
   InitNewPage(frame_id,page_id);
   disk_manager_->ReadPage(page_id,pages_[frame_id].GetData());
-  replacer_->Pin(frame_id);
   return &pages_[frame_id];
 }
 
 bool BufferPoolManager::UnpinPageImpl(page_id_t page_id, bool is_dirty) { 
-  std::scoped_lock bpm_slk{latch_};
+  std::lock_guard<std::mutex> lock(latch_);
   if(page_table_.find(page_id) == page_table_.end()){
     return false;
   }
@@ -108,7 +107,7 @@ bool BufferPoolManager::UnpinPageImpl(page_id_t page_id, bool is_dirty) {
 }
 
 bool BufferPoolManager::FlushPageImpl(page_id_t page_id) {
-  std::scoped_lock bpm_slk{latch_};
+  std::lock_guard<std::mutex> lock(latch_);
   // Make sure you call DiskManager::WritePage!
   if(page_id==INVALID_PAGE_ID){
     return false;
@@ -123,7 +122,7 @@ bool BufferPoolManager::FlushPageImpl(page_id_t page_id) {
 }
 
 Page *BufferPoolManager::NewPageImpl(page_id_t *page_id) {
-  std::scoped_lock bpm_slk{latch_};
+  std::lock_guard<std::mutex> lock(latch_);
   // 0.   Make sure you call DiskManager::AllocatePage! 
   auto new_page_id = disk_manager_->AllocatePage();
   // 1.   If all the pages in the buffer pool are pinned, return nullptr.
@@ -136,14 +135,13 @@ Page *BufferPoolManager::NewPageImpl(page_id_t *page_id) {
   page_table_.insert({new_page_id,frame_id});
   //page_table_[new_page_id] = frame_id; //添加到页表
   InitNewPage(frame_id,new_page_id); //初始化页的信息
-  replacer_->Pin(frame_id);
   // 4.   Set the page ID output parameter. Return a pointer to P.
   *page_id = new_page_id;
   return &pages_[frame_id];
 }
 
 bool BufferPoolManager::DeletePageImpl(page_id_t page_id) {
-  std::scoped_lock bpm_slk{latch_};
+  std::lock_guard<std::mutex> lock(latch_);
   // 0.   Make sure you call DiskManager::DeallocatePage!
   disk_manager_->DeallocatePage(page_id);
   // 1.   Search the page table for the requested page (P).
@@ -157,21 +155,22 @@ bool BufferPoolManager::DeletePageImpl(page_id_t page_id) {
     return false;
   }
   // 3.   Otherwise, P can be deleted. Remove P from the page table, reset its metadata and return it to the free list.
-  if(pages_[frame_id].is_dirty_){
-    FlushPageImpl(page_id);
-  }
+  //if(pages_[frame_id].is_dirty_){
+  //  FlushPageImpl(page_id);
+  //}
   page_table_.erase(page_id);
   pages_[frame_id].ResetMemory();
   pages_[frame_id].is_dirty_ = false;
   pages_[frame_id].page_id_ = INVALID_PAGE_ID;
   pages_[frame_id].pin_count_ = 0;
+  replacer_->Pin(frame_id);
   free_list_.push_front(frame_id);
   return true;
 }
 
 void BufferPoolManager::FlushAllPagesImpl() {
   // You can do it!
-  std::scoped_lock bpm_slk{latch_};
+  std::lock_guard<std::mutex> lock(latch_);
   for(size_t i=0;i<pool_size_;i++){
     FlushPageImpl(pages_[i].page_id_);
   }
