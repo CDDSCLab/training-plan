@@ -21,12 +21,21 @@ LRUReplacer::LRUReplacer(size_t num_pages)
 {}
 
 LRUReplacer::~LRUReplacer() {
+    ReplacerNode *p = head_->next_;
+    ReplacerNode *q = p;
+    while (p != head_) {
+        q = p->next_;
+        delete p;
+        p = q;
+    }
+    p = nullptr;
+    q = nullptr;
     delete head_;
     head_ = nullptr;
 }
 
 bool LRUReplacer::Victim(frame_id_t *frame_id) {
-    g_mutex_.lock();
+    std::lock_guard<std::mutex> lock(g_mutex_);
     if (this->size_ == 0) {
         g_mutex_.unlock();
         return false;
@@ -40,12 +49,11 @@ bool LRUReplacer::Victim(frame_id_t *frame_id) {
     delete p;
     p = nullptr;
     this->size_--;
-    g_mutex_.unlock();
     return true;
 }
 
 void LRUReplacer::Pin(frame_id_t frame_id) {
-    g_mutex_.lock();
+    std::lock_guard<std::mutex> lock(g_mutex_);
     if (frame_table_.count(frame_id) > 0) {
         ReplacerNode *p = frame_table_[frame_id];
         ReplacerNode *q = p->last_;
@@ -59,11 +67,10 @@ void LRUReplacer::Pin(frame_id_t frame_id) {
     } else {
         // do nothing
     }
-    g_mutex_.unlock();
 }
 
 void LRUReplacer::Unpin(frame_id_t frame_id) {
-    g_mutex_.lock();
+    std::lock_guard<std::mutex> lock(g_mutex_);
     if (frame_table_.count(frame_id) == 0) {
         ReplacerNode *p = new ReplacerNode(frame_id);
         ReplacerNode *q = head_->next_;
@@ -76,14 +83,12 @@ void LRUReplacer::Unpin(frame_id_t frame_id) {
     } else {
         // do nothing
     }
-    g_mutex_.unlock();
 }
 
 size_t LRUReplacer::Size() {
     size_t s = 0;
-    g_mutex_.lock();
+    std::lock_guard<std::mutex> lock(g_mutex_);
     s = this->size_;
-    g_mutex_.unlock();
     return s;
 }
 

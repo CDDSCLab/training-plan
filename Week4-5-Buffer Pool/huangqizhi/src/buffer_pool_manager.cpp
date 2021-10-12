@@ -35,7 +35,7 @@ BufferPoolManager::~BufferPoolManager() {
 }
 
 Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) {
-  latch_.lock();
+  std::lock_guard<std::mutex> lock(latch_);
   // 1.     Search the page table for the requested page (P).
   auto iter = page_table_.find(page_id);
   // 1.1    If P exists, pin it and return it immediately.
@@ -43,7 +43,6 @@ Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) {
     Page *page = &pages_[iter->second];
     page->pin_count_++;
     replacer_->Pin(iter->second);
-    latch_.unlock();
     return page;
   }
   // 1.2    If P does not exist, find a replacement page (R) from either the free list or the replacer.
@@ -54,7 +53,7 @@ Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) {
     free_list_.pop_front();
   }
   // 2.     If R is dirty, write it back to the disk.
-  if (replacer_->Victim(&replace_fid)) {
+  else if (replacer_->Victim(&replace_fid)) {
     page_id_t replace_pid = INVALID_PAGE_ID;
     for(auto &p : page_table_) {
       if (p.second == replace_fid) {
@@ -92,7 +91,7 @@ Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) {
 }
 
 bool BufferPoolManager::UnpinPageImpl(page_id_t page_id, bool is_dirty) {
-  latch_.lock();
+  std::lock_guard<std::mutex> lock(latch_);
   // 1. if page_id not in the page_table
   auto iter = page_table_.find(page_id);
   if (iter == page_table_.end()){
@@ -115,12 +114,11 @@ bool BufferPoolManager::UnpinPageImpl(page_id_t page_id, bool is_dirty) {
   if (unpin_page->pin_count_ == 0) {
     replacer_->Unpin(unpin_fid);
   }
-  latch_.unlock();
   return true;
 }
 
 bool BufferPoolManager::FlushPageImpl(page_id_t page_id) {
-  latch_.lock();
+  std::lock_guard<std::mutex> lock(latch_);
   auto iter = page_table_.find(page_id);
   if (iter == page_table_.end() || page_id == INVALID_PAGE_ID) {
     latch_.unlock();
@@ -128,12 +126,11 @@ bool BufferPoolManager::FlushPageImpl(page_id_t page_id) {
   }
   frame_id_t flush_fid = iter->second;
   disk_manager_->WritePage(page_id, pages_[flush_fid].data_);
-  latch_.unlock();
   return true;
 }
 
 Page *BufferPoolManager::NewPageImpl(page_id_t *page_id) {
-  latch_.lock();
+  std::lock_guard<std::mutex> lock(latch_);
   // 0.   Make sure you call AllocatePage!
   page_id_t new_pid = disk_manager_->AllocatePage();
   // 1.   If all the pages in the buffer pool are pinned, return nullptr.
@@ -147,7 +144,7 @@ Page *BufferPoolManager::NewPageImpl(page_id_t *page_id) {
     replace_fid = free_list_.front();
     free_list_.pop_front();
   }
-  if (replacer_->Victim(&replace_fid)) {
+  else if (replacer_->Victim(&replace_fid)) {
     page_id_t replace_pid = INVALID_PAGE_ID;
     for (auto &p : page_table_) {
       if (p.second == replace_fid) {
@@ -176,12 +173,11 @@ Page *BufferPoolManager::NewPageImpl(page_id_t *page_id) {
   // 4.   Set the page ID output parameter. Return a pointer to P.
   *page_id = new_pid;
   disk_manager_->WritePage(new_pid, new_page->data_);
-  latch_.unlock();
   return new_page;
 }
 
 bool BufferPoolManager::DeletePageImpl(page_id_t page_id) {
-  latch_.lock();
+  std::lock_guard<std::mutex> lock(latch_);
   // 0.   Make sure you call DeallocatePage!
   // 1.   Search the page table for the requested page (P).
   auto iter = page_table_.find(page_id);
@@ -207,19 +203,17 @@ bool BufferPoolManager::DeletePageImpl(page_id_t page_id) {
   del_page->page_id_ = INVALID_PAGE_ID;
   free_list_.push_back(del_fid);
   disk_manager_->DeallocatePage(page_id);
-  latch_.unlock();
   return true;
 }
 
 void BufferPoolManager::FlushAllPagesImpl() {
   // You can do it!
-  latch_.lock();
+  std::lock_guard<std::mutex> lock(latch_);
   for (auto &p : page_table_){
     page_id_t flush_pid = p.first;
     frame_id_t flush_fid = p.second;
     disk_manager_->WritePage(flush_pid, pages_[flush_fid].data_);
   }
-  latch_.unlock();
 }
 
 }  // namespace bustub

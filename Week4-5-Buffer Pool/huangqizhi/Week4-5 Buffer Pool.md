@@ -125,3 +125,6 @@ Buffer Pool Manager主要内置了如下几个组件：
 
 ![image-20211010233212516](https://flaggyellows-bucket-for-typora.oss-cn-shanghai.aliyuncs.com/img/typora/image-20211010233212516.png)
 
+#### CMU网页autograder
+
+![image-20211012212203685](https://flaggyellows-bucket-for-typora.oss-cn-shanghai.aliyuncs.com/img/typora/image-20211012212203685.png)
