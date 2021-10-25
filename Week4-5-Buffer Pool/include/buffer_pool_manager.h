@@ -172,4 +172,3 @@ class BufferPoolManager {
   std::mutex latch_;
 };
 }  // namespace bustub
-

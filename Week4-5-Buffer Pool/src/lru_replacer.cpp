@@ -44,11 +44,11 @@ void LRUReplacer::Pin(frame_id_t frame_id){
     lru_list.erase(lru_map[frame_id]);
     lru_map.erase(frame_id);
   }
-  ;latch.unlock();
+  latch.unlock();
 }
 
 void LRUReplacer::Unpin(frame_id_t frame_id) {
-  std::scoped_lock lru_clk{latch};
+  latch.lock();
   if(lru_map.count(frame_id) != 0){
     return;
   }
@@ -60,10 +60,10 @@ void LRUReplacer::Unpin(frame_id_t frame_id) {
       }
   lru_list.push_front(frame_id);
   lru_map[frame_id] = lru_list.begin();
+  latch.unlock();
 }
 
 size_t LRUReplacer::Size() {return lru_list.size(); }
 
 
 } // namespace bustub
-

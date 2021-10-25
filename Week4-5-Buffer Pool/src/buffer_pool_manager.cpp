@@ -14,6 +14,7 @@
 
 #include <list>
 #include <unordered_map>
+#include <mutex> 
 
 namespace bustub {
 
@@ -50,17 +51,19 @@ bool BufferPoolManager::find_replace(frame_id_t *frame_id) {
   }
   // else we need to find a replace page
   if (replacer_->Victim(frame_id)) {
-    // Remove entry from page_table
-    int replace_frame_id = -1;
-    for (const auto &p : page_table_) {
-      page_id_t pid = p.first;
-      frame_id_t fid = p.second;
-      if (fid == *frame_id) {
-        replace_frame_id = pid;
-        break;
+      int replace_frame_id = INVALID_PAGE_ID;
+      auto it = page_table_.begin();
+      while (it != page_table_.end())
+      {
+        if(it->second == frame_id)
+        { 
+          replace_frame_id = it->first;
+          page_table_.erase(it->first);
+          break;
+        }
+        it++;
       }
-    }
-    if (replace_frame_id != -1) {
+  if (replace_frame_id != -1) {
       Page *replace_page = &pages_[*frame_id];
       // If dirty, flush to disk
       if (replace_page->is_dirty_) {
@@ -78,11 +81,11 @@ bool BufferPoolManager::find_replace(frame_id_t *frame_id) {
 
 //get a page
 //如果该页在缓冲池中直接访问并且记得把它的pin_count++，然后把调用Pin函数通知replacer
-//否则调用find_replace函数，获得可用的frame_id
+//否则调用find_replace函数，无论缓冲池是否有空闲，都可以获得可用的frame_id
 //然后建立新的page_table映射关系
 Page *BufferPoolManager::FetchPageImpl(page_id_t page_id) 
 {
-  latch_.lock();
+  std::lock_guard<std::mutex> guard(latch_);
   // 1.     Search the page table for the requested page (P).
   std::unordered_map<page_id_t, frame_id_t>::iterator it = page_table_.find(page_id);
   // 1.1    If P exists, pin it and return it immediately.
@@ -91,37 +94,27 @@ Page *BufferPoolManager::FetchPageImpl(page_id_t page_id)
     Page *page = &pages_[frame_id];
     page->pin_count_++;       
     replacer_->Pin(frame_id);  
-    latch_.unlock();
     return page;
   }
   // 1.2    If P does not exist, find a replacement page (R) from either the free list or the replacer.
   //        Note that pages are always found from the free list first.
   frame_id_t replace_fid;
   if (!find_replace(&replace_fid)) {
-    latch_.unlock();
     return nullptr;
   }
   Page *replacePage = &pages_[replace_fid];
-  /*if (replacePage->IsDirty()) {
-    disk_manager_->WritePage(replacePage->page_id_, replacePage->data_);
-  }
-  page_table_.erase(replacePage->page_id_);*/
   // create new map
   // page_id <----> replaceFrameID;
-  page_table_[page_id] = replace_fid;
   //  update replacePage info
-  Page *newPage = replacePage;
-  disk_manager_->ReadPage(page_id, newPage->data_);
-  newPage->page_id_ = page_id;
-  newPage->pin_count_++;
-  newPage->is_dirty_ = false;
+  disk_manager_->ReadPage(page_id, replacePage->data_);
+  replacePage->page_id_ = page_id;
+  replacePage->pin_count_++;
+  replacePage->is_dirty_ = false;
   replacer_->Pin(replace_fid);
-  latch_.unlock();
-  
-  return newPage;
+  return replacePage;
 }
 
-//1 如果这个页的pin_couter>0我们直接减1
+//1 如果这个页的pin_couter>0我们直接--
 //2 如果这个页的pin_couter==0我们需要给它加到Lru_replacer中。因为没有人引用它。所以它可以成为被替换的候选人
 bool BufferPoolManager::UnpinPageImpl(page_id_t page_id, bool is_dirty){
   latch_.lock();
@@ -200,7 +193,6 @@ Page *BufferPoolManager::NewPageImpl(page_id_t *page_id)
   page_table_[new_page_id] = victim_fid;
   victim_page->is_dirty_ = false;
   *page_id = new_page_id;
-  
    disk_manager_->WritePage(victim_page->GetPageId(), victim_page->GetData());
   latch_.unlock();
   return victim_page;
@@ -255,4 +247,3 @@ void BufferPoolManager::FlushAllPagesImpl()
 }
 
 }  // namespace bustub
-
