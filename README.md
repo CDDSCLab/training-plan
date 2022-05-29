@@ -47,6 +47,9 @@
 | 13    | 数据挖掘      | 数据预处理(滤波、插值、降维) <br />关联分析 <br />图挖掘，序列模式挖掘                            | 1. 整理相关算法说明文档<br />2. 使用现有工具库分析图数据中的重要节点、社团关系等，并对结果进行展示 <br /> [项目地址](./SpringTerm-Week13-DataMining)                             |
 | 14    | 机器学习&深度学习 | 分类算法（KNN、贝叶斯、SVM、决策树）<br />聚类算法（kmeans、DBSCAN）<br />常用模型(CNN、RNN、LSTM) | 1. 整理相关算法说明文档 <br /> 2. 使用机器学习和深度学习方法实现手写数字识别 <br />3. 空气质量数据集进行预处理，使用深度学习方法，实现空气质量预测<br />[项目地址](./SpringTerm-Week14-DeepLearning) |
 | 15    | 深度学习      | Attention机制、Transformer、GAN<br />自然语言处理基础：分词、去除停用词、命名实体识别、预训练模型        | 1. 使用NLP工具实现命名实体识别 <br />2. 搭建模型，实现情感分析<br />[项目地址](SpringTerm-Week15-NLP)                                                        |
+| 16-17    | Percolator和SQL调用      | 实现协调者Percolator协议和完成SQL调用模块        | [Percolator](https://github.com/vldbss-2021/vldb-2021-labs/blob/master/tinysql/doc_ss/lab3-README-zh_CN.md)<br />[SQL](https://github.com/vldbss-2021/vldb-2021-labs/blob/master/tinysql/doc_ss/lab4a-README-zh_CN.md)
+| 18    | Update和Insert的executor的实现      | 实现Update语句和Select语句的executor        | [Update](https://github.com/vldbss-2021/vldb-2021-labs/blob/master/tinysql/doc_ss/lab4b-README-zh_CN.md)<br />[SQL](https://github.com/vldbss-2021/vldb-2021-labs/blob/master/tinysql/doc_ss/lab4a-README-zh_CN.md)
+
 
 ## 如何提交作业
 
