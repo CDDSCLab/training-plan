@@ -49,49 +49,50 @@
 |  29   |                       DeepLearning                       | 分类算法（KNN、贝叶斯、SVM、决策树）<br />聚类算法（kmeans、DBSCAN）<br />常用模型(CNN、RNN、LSTM) | 1. 整理相关算法说明文档 <br /> 2. 使用机器学习和深度学习方法实现手写数字识别 <br />3. 空气质量数据集进行预处理，使用深度学习方法，实现空气质量预测<br />[项目地址](./SpringTerm-Week14-DeepLearning) |
 |  30   |                           NLP                            | Attention机制、Transformer、GAN<br />自然语言处理基础：分词、去除停用词、命名实体识别、预训练模型 | 1. 使用NLP工具实现命名实体识别 <br />2. 搭建模型，实现情感分析<br />[项目地址](SpringTerm-Week15-NLP) |
 
-说明：整个学习流程的作业和文档需要在实验室 Github 仓库里面提交，每个 Project 会事先建立好框架，每个同学按照框架进行代码和文档的撰写。并且在代码过程中抽象公共代码库方便后续同学的使用，且需做好 todo-list，方便功能的完善。
-
+说明：整个学习流程的作业和文档需要在实验室 Github 仓库里面提交，每个 Project
+会事先建立好框架，每个同学按照框架进行代码和文档的撰写。并且在代码过程中抽象公共代码库方便后续同学的使用，且需做好
+todo-list，方便功能的完善。
 
 ## 如何提交作业
 
 1. 第一次提交作业的时候请先 `fork` 当前项目到自己的仓库
 
 2. 在自己的仓库里面进行作业的更新
-   
+
    以第一次作业为例，比如你 `fork` 之后你的代码地址为 `git@github.com:ehds/training-plan.git`
-   
-   1. 克隆仓库到本地：
-      
-      `git clone git@github.com:ehds/training-plan.git`
-   
-   2. 进入当前实验文件夹`Week1-Databse-Introduction`
-      
-      `cd Week1-Databse-Introduction`
-   
-   3. 新建一个自己的文件夹，名字+实验名称，参考 Example
-      
-      `cp -r Example DongShengHe-Week1`
-      
-      完善实验文档 Markdown 文件
-   
-   4. add 作业内容
-      
-      `git add .`
-   
-   5. commit 修改
-      
-      `git commit -m "message"` （message使用英文填写你所做的修改）如 `git commit -m “complete week1 experiment`
-   
-   6. push 分支
-      
-      `git push origin master`
+
+    1. 克隆仓库到本地：
+
+       `git clone git@github.com:ehds/training-plan.git`
+
+    2. 进入当前实验文件夹`Week1-Databse-Introduction`
+
+       `cd Week1-Databse-Introduction`
+
+    3. 新建一个自己的文件夹，名字+实验名称，参考 Example
+
+       `cp -r Example DongShengHe-Week1`
+
+       完善实验文档 Markdown 文件
+
+    4. add 作业内容
+
+       `git add .`
+
+    5. commit 修改
+
+       `git commit -m "message"` （message使用英文填写你所做的修改）如 `git commit -m “complete week1 experiment`
+
+    6. push 分支
+
+       `git push origin master`
 
 3. 提交 PR
-   
+
    在 Gihub 仓库界面新建一个 pull request 到实验室仓库
 
 4. 审核与修改
-   
+
    待审核人审核后，根据修改意见进行修改，待通过后即可
 
 ## 如何提问
