@@ -1,4 +1,4 @@
-# Week28-DeepLearning
+# Week29-DeepLearning
 ## 常用机器学习算法
 
 1. 分类算法
