@@ -1,4 +1,4 @@
-# Week28-DataMining
+# Week12-DataMining
 ## 数据挖掘常用算法：
 
 1. 数据预处理算法
