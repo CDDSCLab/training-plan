@@ -25,7 +25,7 @@
 |   3   |                Research Trends Discovery                 | 近三年新研究方向分享                                         |                                                              |
 |   4   |           Database & Data Storage Introduction           | 数据库架构和数据存储方向介绍                                 |                                                              |
 |   5   |                     CMU-Buffer Pool                      | 以个人为单位，实现一个buffer pool，并测试其性能及内存占用。并撰写相关文档 | [项目地址](https://15445.courses.cs.cmu.edu/spring2023/project1/) |
-|  6-7  |                CMU-Extendible Hash Index                 | 以个人为单位，在buffer pool的基础上,实现一个Hash Index，并测试其性能及内存占用。并撰写相关文档 | [项目地址](https://15445.courses.cs.cmu.edu/spring2023/project2/) |
+|  6-7  |                    CMU-B+Tree Index                      | 在buffer pool的基础上，实现一个B+树，需包含单元测试及测试性能。   | [项目地址](https://15445.courses.cs.cmu.edu/spring2023/project2/) |
 |  8-9  |                      CMU-Execution                       | 了解 SQL Engine 组件及功能，学习 SQL 解析流程及抽象语法树。学习执行算子，如 Join, Agg, Scan 的不同实现。了解基本的查询优化方法，了解 Volcano 及 Vectorized 执行器架构 | 撰写相关文档<br />实现数据库的执行器。[项目地址](https://15445.courses.cs.cmu.edu/spring2023/project3/) |
 | 10-11 |                 CMU-Concurrency-Control                  | 理解事务的概念及产生原因、理解ACID特性<br/>并发控制（乐观、悲观）<br/>数据持久化和故障恢复（日志、检查点、快照） | 撰写相关文档<br />基于锁实现数据库的并发控制，要求保证事务的ACID特性 [项目地址](https://15445.courses.cs.cmu.edu/spring2023/project4/) |
 |  12   |                        DataMining                        | 数据预处理(滤波、插值、降维) <br />关联分析 <br />图挖掘，序列模式挖掘 | 1. 整理相关算法说明文档<br />2. 使用现有工具库分析图数据中的重要节点、社团关系等，并对结果进行展示 <br /> [项目地址](./Week12-DataMining) |
