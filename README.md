@@ -28,7 +28,7 @@
 |  6-7  |                     CMU-B+Tree Index                     | 在buffer pool的基础上，实现一个B+树，需包含单元测试及测试性能。 | [项目地址](https://15445.courses.cs.cmu.edu/spring2023/project2/) |
 |  8-9  |                      CMU-Execution                       | 了解 SQL Engine 组件及功能，学习 SQL 解析流程及抽象语法树。学习执行算子，如 Join, Agg, Scan 的不同实现。了解基本的查询优化方法，了解 Volcano 及 Vectorized 执行器架构 | 撰写相关文档<br />实现数据库的执行器。[项目地址](https://15445.courses.cs.cmu.edu/spring2023/project3/) |
 | 10-11 |                 CMU-Concurrency-Control                  | 理解事务的概念及产生原因、理解ACID特性<br/>并发控制（乐观、悲观）<br/>数据持久化和故障恢复（日志、检查点、快照） | 撰写相关文档<br />基于锁实现数据库的并发控制，要求保证事务的ACID特性 [项目地址](https://15445.courses.cs.cmu.edu/spring2023/project4/) |
-|  12   |                       Data Mining                        | 掌握机器学习的经典算法和数据挖掘的基本流程。                 | 整理算法文档<br /> 完成分类和时间序列预测两个项目 <br /> [项目地址](./Week12-Data Mining) |
+|  12   |                       Data Mining                        | 掌握机器学习的经典算法和数据挖掘的基本流程。                 | 整理算法文档<br /> 完成分类和时间序列预测两个项目 <br /> [项目地址](./Week12-Data%20Mining/) |
 |  13   |                           NLP                            | 掌握NLP基础工具，以及预训练模型的使用方法。                  | 整理算法文档 <br />掌握NLP工具包 <br />完成文本分类项目<br />[项目地址](./Week13-NLP) |
 |  14   |                            CV                            | 掌握CV常见模型，实现简单的图像分类，了解多模态模型的构建。   | 整理算法文档 <br />完成图像分类项目<br />[项目地址](./Week14-CV) |
 |  15   |                   TinyKV-Standalone KV                   | 分布式相关概念、时钟 <br/> CAP、BASE <br/> 拜占庭问题 <br /> [Zab](https://marcoserafini.github.io/papers/zab.pdf) <br/> [Gossip](https://flopezluis.github.io/gossip-simulator/) <br/> | 实现单机的kv server<br />[Project1 StandaloneKV](https://github.com/tidb-incubator/tinykv/blob/course/doc/project1-StandaloneKV.md) |
